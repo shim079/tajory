@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "215062066311",
+    "project_id": "login-page-dbd82",
+    "storage_bucket": "login-page-dbd82.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215062066311:android:afd06b5a334f84cb447422",
+        "android_client_info": {
+          "package_name": "com.example.tajory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjJ7Yd7QNlrdPYONIJpBliOzrrWoYBz9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
