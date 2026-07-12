@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../models/island_state.dart';
 import '../services/firestore_service.dart';
 import '../services/pet_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../services/firestore_service.dart';
+
 import '../widgets/profile_header.dart';
 
 class IslandScreen extends StatefulWidget {
@@ -19,10 +22,19 @@ class _IslandScreenState extends State<IslandScreen> {
   String? _companionAsset;
   bool _isLoading = true;
   String? _error;
+  String? _companionAsset;
+
+  static const _companionMap = {
+    'Home 1': 'home 1.png',
+    'Home 2': 'home 2.png',
+    'Home 3': 'home 3.png',
+    'Home 4': 'home 4.png',
+  };
 
   @override
   void initState() {
     super.initState();
+
     _loadData();
   }
 
@@ -61,6 +73,24 @@ class _IslandScreenState extends State<IslandScreen> {
         _error = e.toString();
       });
     }
+
+    _loadCompanion();
+  }
+
+  Future<void> _loadCompanion() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    final profile = await _firestoreService.getUserProfile(user.uid);
+    if (profile == null) return;
+
+    final selectedPet = profile['selectedPet'] as String? ?? '';
+    final asset = _companionMap[selectedPet] ?? 'home 1.png';
+
+    if (!mounted) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) setState(() => _companionAsset = asset);
+    });
   }
 
   @override
@@ -78,6 +108,15 @@ class _IslandScreenState extends State<IslandScreen> {
             const ProfileHeader(),
             Expanded(
               child: _buildBody(),
+              child: Center(
+                child: _companionAsset == null
+                    ? const CircularProgressIndicator()
+                    : Image.asset(
+                        'assets/images/${_companionAsset!}',
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+              ),
             ),
           ],
         ),

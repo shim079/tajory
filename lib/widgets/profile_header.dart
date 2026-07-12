@@ -70,24 +70,38 @@ class _ProfileHeaderState extends State<ProfileHeader>
       final today = DateTime.now();
       final todayNormalized = DateTime(today.year, today.month, today.day);
 
-      setState(() {
-        _userName = profile?['name'] as String? ?? user.displayName ?? 'User';
-        _profileImageUrl = profile?['profileImage'] as String?;
-        _currentLevel = islandState.level;
-        _currentXP = islandState.points;
-        _requiredXP = islandState.pointsToNextLevel;
-        _currentStreak = checkInData?['currentStreak'] as int? ?? 0;
-        _checkedDays =
-            checkedDaysRaw.map((d) => DateTime.parse(d as String)).toList();
-        _hasCheckedInToday = _checkedDays.any((d) =>
-            d.year == today.year &&
-            d.month == today.month &&
-            d.day == today.day);
-        _isLoading = false;
+      final userName = profile?['name'] as String? ?? user.displayName ?? 'User';
+      final profileImageUrl = profile?['profileImage'] as String?;
+      final currentLevel = islandState.level;
+      final currentXP = islandState.points;
+      final requiredXP = islandState.pointsToNextLevel;
+      final currentStreak = checkInData?['currentStreak'] as int? ?? 0;
+      final checkedDays =
+          checkedDaysRaw.map((d) => DateTime.parse(d as String)).toList();
+      final hasCheckedInToday = checkedDays.any((d) =>
+          d.year == today.year &&
+          d.month == today.month &&
+          d.day == today.day);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() {
+          _userName = userName;
+          _profileImageUrl = profileImageUrl;
+          _currentLevel = currentLevel;
+          _currentXP = currentXP;
+          _requiredXP = requiredXP;
+          _currentStreak = currentStreak;
+          _checkedDays = checkedDays;
+          _hasCheckedInToday = hasCheckedInToday;
+          _isLoading = false;
+        });
       });
     } catch (e) {
       if (!mounted) return;
-      setState(() => _isLoading = false);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() => _isLoading = false);
+      });
     }
   }
 
