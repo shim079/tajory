@@ -22,7 +22,6 @@ class _IslandScreenState extends State<IslandScreen> {
   String? _companionAsset;
   bool _isLoading = true;
   String? _error;
-  String? _companionAsset;
 
   static const _companionMap = {
     'Home 1': 'home 1.png',
@@ -107,7 +106,6 @@ class _IslandScreenState extends State<IslandScreen> {
           children: [
             const ProfileHeader(),
             Expanded(
-              child: _buildBody(),
               child: Center(
                 child: _companionAsset == null
                     ? const CircularProgressIndicator()
