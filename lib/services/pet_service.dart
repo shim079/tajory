@@ -29,6 +29,18 @@ class PetService {
     ),
   ];
 
+  static const Map<String, String> _companionAssets = {
+    'Home 1': 'assets/images/home 1.png',
+    'Home 2': 'assets/images/home 2.png',
+    'Home 3': 'assets/images/home 3.png',
+    'Home 4': 'assets/images/home 4.png',
+  };
+
+  static String? getCompanionAssetPath(String? selectedPet) {
+    if (selectedPet == null || selectedPet.isEmpty) return null;
+    return _companionAssets[selectedPet];
+  }
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> saveSelectedPet({
@@ -54,7 +66,18 @@ class PetService {
 
       if (petData is String) {
         final matches = availablePets.where((p) => p.id == petData);
-        return matches.isNotEmpty ? matches.first : null;
+        if (matches.isNotEmpty) return matches.first;
+
+        final assetPath = getCompanionAssetPath(petData);
+        if (assetPath != null) {
+          return Pet(
+            id: petData.toLowerCase().replaceAll(' ', '_'),
+            name: petData,
+            emoji: '\u{1F3E0}',
+            description: 'Your chosen companion.',
+          );
+        }
+        return null;
       }
 
       return null;

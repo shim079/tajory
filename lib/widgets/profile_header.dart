@@ -101,11 +101,11 @@ class _ProfileHeaderState extends State<ProfileHeader>
     final firstName = _getFirstName();
 
     if (hour >= 5 && hour < 12) {
-      return 'Good Morning, $firstName 👋';
+      return 'صباخ الخير, $firstName 👋';
     } else if (hour >= 12 && hour < 17) {
-      return 'Good Afternoon, $firstName ☀️';
+      return 'مساء الخير, $firstName ☀️';
     } else {
-      return 'Good Evening, $firstName 🌙';
+      return 'مساء الخير, $firstName 🌙';
     }
   }
 
@@ -137,7 +137,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
   }
 
   String _dayAbbreviation(DateTime day) {
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const days = ['الاثنين', 'الثلاثاء', 'الارببعاء', 'الخميس', 'الجمعة', 'السبت', 'الاحد'];
     return days[day.weekday - 1];
   }
 
@@ -163,143 +163,143 @@ class _ProfileHeaderState extends State<ProfileHeader>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SafeArea(
-      bottom: false,
+    return Directionality(
+      textDirection: TextDirection.rtl,
       child: Container(
         color: const Color(0xFFF8F5EF),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 54, bottom: 12),
         child: _isLoading
-            ? const SizedBox(
-                height: 80,
-                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-              )
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      _buildAvatar(theme),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getGreeting(),
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
+          ? const SizedBox(
+              height: 80,
+              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    _buildAvatar(theme),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _getGreeting(),
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
                             ),
-                            const SizedBox(height: 4),
-                            Row(
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Icon(Icons.local_fire_department_rounded,
+                                  color: Colors.orange.shade700, size: 18),
+                              const SizedBox(width: 4),
+                              Text(
+                                '$_currentStreak ايام ',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.06),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Daily Check-in',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: _getCurrentWeekDays().map((day) {
+                          final completed = _isCompleted(day);
+                          final today = _isToday(day);
+
+                          return GestureDetector(
+                            onTap: today && !completed ? _onCheckIn : null,
+                            child: Column(
                               children: [
-                                Icon(Icons.local_fire_department_rounded,
-                                    color: Colors.orange.shade700, size: 18),
-                                const SizedBox(width: 4),
                                 Text(
-                                  '$_currentStreak Days',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                  _dayAbbreviation(day),
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                ScaleTransition(
+                                  scale: (today && completed)
+                                      ? _scaleAnimation
+                                      : const AlwaysStoppedAnimation(1.0),
+                                  child: Container(
+                                    width: 42,
+                                    height: 42,
+                                    decoration: BoxDecoration(
+                                      color: completed
+                                          ? const Color(0xFFFFE8E0)
+                                          : Colors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: completed
+                                            ? Colors.red.shade400
+                                            : today
+                                                ? Colors.black87
+                                                : Colors.grey.shade300,
+                                        width: today && !completed ? 2 : 1.5,
+                                      ),
+                                    ),
+                                    child: completed
+                                        ? Icon(
+                                            Icons
+                                                .local_fire_department_rounded,
+                                            color: Colors.red.shade400,
+                                            size: 20,
+                                          )
+                                        : null,
                                   ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 14),
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.06),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                      child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Daily Check-in',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 14),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: _getCurrentWeekDays().map((day) {
-                            final completed = _isCompleted(day);
-                            final today = _isToday(day);
-
-                            return GestureDetector(
-                              onTap: today && !completed ? _onCheckIn : null,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    _dayAbbreviation(day),
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: theme.colorScheme.onSurfaceVariant,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  ScaleTransition(
-                                    scale: (today && completed)
-                                        ? _scaleAnimation
-                                        : const AlwaysStoppedAnimation(1.0),
-                                    child: Container(
-                                      width: 42,
-                                      height: 42,
-                                      decoration: BoxDecoration(
-                                        color: completed
-                                            ? const Color(0xFFFFE8E0)
-                                            : Colors.white,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: completed
-                                              ? Colors.red.shade400
-                                              : today
-                                                  ? Colors.black87
-                                                  : Colors.grey.shade300,
-                                          width: today && !completed ? 2 : 1.5,
-                                        ),
-                                      ),
-                                      child: completed
-                                          ? Icon(
-                                              Icons
-                                                  .local_fire_department_rounded,
-                                              color: Colors.red.shade400,
-                                              size: 20,
-                                            )
-                                          : null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
+            ),
       ),
     );
   }
