@@ -35,7 +35,9 @@ class OnboardingBackground extends StatelessWidget {
             left: 0,
             right: 0,
             height: 410,
-            child: Container(color: backgroundColor),
+            child: Container(
+              color: backgroundColor,
+            ),
           ),
         Positioned(
           top: 410,

@@ -60,7 +60,7 @@ class _OnboardingPageState extends State<OnboardingPage>
 
     if (widget.data.illustrationType == OnboardingIllustrationType.logo) {
       return Container(
-        color: const Color(0xFFF8F5EF),
+        color: widget.data.backgroundColor,
         child: Stack(
           children: [
             Positioned(

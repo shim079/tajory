@@ -23,9 +23,9 @@ class OnboardingIndicator extends StatelessWidget {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 350),
           curve: Curves.easeInOut,
-          margin: const EdgeInsets.symmetric(horizontal: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 7),
           width: 12,
-          height: 12,
+          height: 500,
           decoration: BoxDecoration(
             color: isActive ? _activeColor : _inactiveColor,
             shape: BoxShape.circle,

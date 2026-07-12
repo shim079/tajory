@@ -18,7 +18,7 @@ class OnboardingPrimaryButton extends StatelessWidget {
         onPressed: onPressed,
         style: FilledButton.styleFrom(
           backgroundColor: const Color(0xFF2E7D32),
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -26,7 +26,7 @@ class OnboardingPrimaryButton extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
@@ -53,7 +53,7 @@ class OnboardingSecondaryButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 15,
           fontWeight: FontWeight.w500,
           color: Colors.grey[500],
         ),

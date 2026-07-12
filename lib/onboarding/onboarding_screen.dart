@@ -78,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: _currentPage <= 1 ? Colors.white : const Color(0xFFF0EDE8),
+
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -108,7 +108,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Positioned(
                 left: 28,
                 right: 28,
-                bottom: size.height * 0.10,
+                bottom: size.height * 0.15,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
