@@ -62,11 +62,22 @@ class _OnboardingPageState extends State<OnboardingPage>
       return Container(
         color: widget.data.backgroundColor,
         child: Stack(
+          fit: StackFit.expand,
           children: [
             Positioned(
-              top: 160,
-              left: 51,
+              top: MediaQuery.of(context).padding.top + 8,
+              left: 16,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black87,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            Center(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     width: 220,
@@ -89,23 +100,16 @@ class _OnboardingPageState extends State<OnboardingPage>
               ),
             ),
             Positioned(
-              top: 470,
               left: 0,
               right: 0,
               bottom: 0,
-              child: _buildContentArea(context),
+              height: 120,
+              child: Image.asset(
+                'assets/images/sand.png',
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
+              ),
             ),
-          Positioned(
-            top: 710,
-            left: 0,
-            width: 402,
-            height: 164,
-            child: Image.asset(
-              'assets/images/sand.png',
-              fit: BoxFit.cover,
-              alignment: Alignment.bottomCenter,
-            ),
-          ),
           ],
         ),
       );

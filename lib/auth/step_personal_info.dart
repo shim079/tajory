@@ -111,6 +111,7 @@ class _StepPersonalInfoState extends State<StepPersonalInfo> {
             const SizedBox(height: 16),
             Text(
               'المعلومات الشخصية',
+              textAlign: TextAlign.center,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -118,6 +119,7 @@ class _StepPersonalInfoState extends State<StepPersonalInfo> {
             const SizedBox(height: 8),
             Text(
               'أخبرنا عن نفسك لنخصص تجربتك.',
+              textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -128,14 +130,19 @@ class _StepPersonalInfoState extends State<StepPersonalInfo> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: 'الاسم الكامل',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 filled: true,
                 fillColor: Colors.white,
-                border: const OutlineInputBorder(),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 2),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 1),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 1),
                 ),
               ),
               validator: (value) {
@@ -152,14 +159,19 @@ class _StepPersonalInfoState extends State<StepPersonalInfo> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: r'الدخل الشهري (SAR)',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 filled: true,
                 fillColor: Colors.white,
-                border: const OutlineInputBorder(),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 2),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 1),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 1),
                 ),
               ),
               validator: (value) {
@@ -179,14 +191,19 @@ class _StepPersonalInfoState extends State<StepPersonalInfo> {
               child: InputDecorator(
                 decoration: InputDecoration(
                   labelText: 'تاريخ الراتب',
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
                   filled: true,
                   fillColor: Colors.white,
-                  border: const OutlineInputBorder(),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E7D32), width: 2),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E7D32), width: 1),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 1),
                   ),
                   suffixIcon: const Icon(Icons.calendar_today),
                 ),
@@ -218,12 +235,23 @@ class _StepPersonalInfoState extends State<StepPersonalInfo> {
               ),
             ],
             const SizedBox(height: 24),
-            FilledButton(
-              onPressed: _submit,
-              style: FilledButton.styleFrom(
-                backgroundColor: const Color(0xFF2E7D32),
+            SizedBox(
+              width: double.infinity,
+              height: 54,
+              child: FilledButton(
+                onPressed: _submit,
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF2E7D32),
+                  disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                child: const Text(
+                  'التالي',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
               ),
-              child: const Text('التالي'),
             ),
             const SizedBox(height: 24),
           ],

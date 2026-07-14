@@ -5,6 +5,8 @@ class DonutChart extends StatelessWidget {
   final Map<String, double> data;
   final double size;
   final double strokeWidth;
+  final Map<String, Color>? categoryColors;
+  final bool showLegend;
 
   static const _categoryColors = {
     'Food': Color(0xFF4CAF50),
@@ -22,9 +24,14 @@ class DonutChart extends StatelessWidget {
     required this.data,
     this.size = 200,
     this.strokeWidth = 40,
+    this.categoryColors,
+    this.showLegend = true,
   });
 
   Color _colorFor(String category, int index) {
+    if (categoryColors != null && categoryColors!.containsKey(category)) {
+      return categoryColors![category]!;
+    }
     return _categoryColors[category] ?? Color.lerp(Colors.blue, Colors.purple, (index % 10) / 10)!;
   }
 
@@ -67,8 +74,9 @@ class DonutChart extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        ...entries.asMap().entries.map((entry) {
+        if (showLegend) ...[
+          const SizedBox(height: 16),
+          ...entries.asMap().entries.map((entry) {
           final i = entry.key;
           final e = entry.value;
           final percent = total > 0 ? (e.value / total) * 100 : 0.0;
@@ -102,6 +110,7 @@ class DonutChart extends StatelessWidget {
             ),
           );
         }),
+        ],
       ],
     );
   }

@@ -26,6 +26,7 @@ class _StepAccountState extends State<StepAccount> {
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
+  bool _agreedToTerms = false;
 
   @override
   void dispose() {
@@ -134,33 +135,34 @@ class _StepAccountState extends State<StepAccount> {
           children: [
             const SizedBox(height: 16),
             Text(
-              'Create your account',
+              'أنشئ حسابك',
+              textAlign: TextAlign.center,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              'Enter your email and password to finish setup.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
+
             const SizedBox(height: 32),
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: 'البريد الالكتروني',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 filled: true,
                 fillColor: Colors.white,
-                border: const OutlineInputBorder(),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 2),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 1),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 1),
                 ),
               ),
               validator: (value) {
@@ -173,21 +175,26 @@ class _StepAccountState extends State<StepAccount> {
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 26),
             TextFormField(
               controller: _passwordController,
               obscureText: _obscurePassword,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'كلمة المرور',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 filled: true,
                 fillColor: Colors.white,
-                border: const OutlineInputBorder(),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 2),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 1),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 1),
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -201,30 +208,37 @@ class _StepAccountState extends State<StepAccount> {
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Please enter a password.';
+                  return 'الرجاء إدخال كلمة المرور.';
                 }
                 if (value.length < 6) {
-                  return 'Password must be at least 6 characters.';
+                  return 'يجب أن تكون كلمة المرور مكونة من 6 أحرف على الأقل.';
                 }
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
+            _buildPasswordRules(),
+            const SizedBox(height: 26),
             TextFormField(
               controller: _confirmController,
               obscureText: _obscureConfirm,
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (_) => _register(),
               decoration: InputDecoration(
-                labelText: 'Confirm Password',
+                labelText: 'تأكيد كلمة المرور',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 filled: true,
                 fillColor: Colors.white,
-                border: const OutlineInputBorder(),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 2),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF2E7D32), width: 1),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 1),
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -238,27 +252,43 @@ class _StepAccountState extends State<StepAccount> {
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Please confirm your password.';
+                  return 'الرجاء تأكيد كلمة المرور الخاصة بك.';
                 }
                 if (value != _passwordController.text) {
-                  return 'Passwords do not match.';
+                  return 'كلمات المرور لا تتطابق.';
                 }
                 return null;
               },
             ),
+            const SizedBox(height: 16),
+            _buildTermsCheckbox(),
             const SizedBox(height: 24),
-            FilledButton(
-              onPressed: _isLoading ? null : _register,
-              style: FilledButton.styleFrom(
-                backgroundColor: const Color(0xFF2E7D32),
+            SizedBox(
+              width: double.infinity,
+              height: 54,
+              child: FilledButton(
+                onPressed: (_isLoading || !_agreedToTerms) ? null : _register,
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF2E7D32),
+                  disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text(
+                        'انشاء حساب',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      ),
               ),
-              child: _isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text('Create Account'),
             ),
             const SizedBox(height: 24),
           ],
@@ -266,4 +296,102 @@ class _StepAccountState extends State<StepAccount> {
       ),
     );
   }
+
+  Widget _buildPasswordRules() {
+    final password = _passwordController.text;
+    final rules = [
+      _PasswordRule(
+        text: 'ان تتكون كلمة المرور من 6 احرف على الاقل',
+        isMet: password.length >= 6,
+      ),
+      _PasswordRule(
+        text: 'ان يحتوى على رقم واحد على الاقل',
+        isMet: RegExp(r'\d').hasMatch(password),
+      ),
+      _PasswordRule(
+        text: 'ان يحتوي على حرف واحد كبير على الاقل',
+        isMet: RegExp(r'[A-Z]').hasMatch(password),
+      ),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: rules.map((rule) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Row(
+            children: [
+              Icon(
+                rule.isMet ? Icons.check_circle_rounded : Icons.cancel_rounded,
+                size: 16,
+                color: rule.isMet ? const Color(0xFF2E7D32) : Colors.grey.shade400,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                rule.text,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: rule.isMet ? const Color(0xFF2E7D32) : Colors.grey.shade500,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildTermsCheckbox() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Checkbox(
+          value: _agreedToTerms,
+          onChanged: (v) => setState(() => _agreedToTerms = v ?? false),
+          activeColor: const Color(0xFF2E7D32),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        Expanded(
+          child: GestureDetector(
+            onTap: () => setState(() => _agreedToTerms = !_agreedToTerms),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Text.rich(
+                TextSpan(
+                  text: 'أوافق على ',
+                  style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+                  children: const [
+                    TextSpan(
+                      text: 'شروط الاستخدام ',
+                      style: TextStyle(
+                        color: Color(0xFF2E7D32),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    TextSpan(text: ' و'),
+                    TextSpan(
+                      text: 'سياسة الخصوصية',
+                      style: TextStyle(
+                        color: Color(0xFF2E7D32),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PasswordRule {
+  final String text;
+  final bool isMet;
+
+  const _PasswordRule({required this.text, required this.isMet});
 }

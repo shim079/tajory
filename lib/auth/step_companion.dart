@@ -53,6 +53,7 @@ class _StepCompanionState extends State<StepCompanion> {
           const SizedBox(height: 3),
           Text(
             'اختر رفيقك في الرحلة',
+            textAlign: TextAlign.center,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -60,6 +61,7 @@ class _StepCompanionState extends State<StepCompanion> {
           const SizedBox(height: 4),
           Text(
             'يمكنك اختيار رفيق واحد فقط.',
+            textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -129,12 +131,23 @@ class _StepCompanionState extends State<StepCompanion> {
             }).toList(),
           ),
           const Spacer(),
-          FilledButton(
-            onPressed: _selectedCompanion != null ? _submit : null,
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF2E7D32),
+          SizedBox(
+            width: double.infinity,
+            height: 54,
+            child: FilledButton(
+              onPressed: _selectedCompanion != null ? _submit : null,
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF2E7D32),
+                disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: const Text(
+                'Next',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
             ),
-            child: const Text('Next'),
           ),
           const SizedBox(height: 24),
         ],

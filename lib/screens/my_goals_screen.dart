@@ -70,13 +70,13 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
     final completedGoals = goals.where((g) => g.isCompleted).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF8F5EF),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+        backgroundColor: const Color(0xFFFFFDF9),
+        surfaceTintColor: const Color(0xFFFFFDF9),
         title: Text(
-          'My Goals',
+          'اهدافي',
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -105,7 +105,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                             size: 72, color: Colors.grey.shade300),
                         const SizedBox(height: 20),
                         Text(
-                          'No goals yet',
+                          'لا أهداف حتى الآن',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w600,
@@ -114,7 +114,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Tap the + button to create your first financial goal.',
+                          'اضغط على زر + لإنشاء هدفك المالي الأول.',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.grey.shade500,
@@ -126,14 +126,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                       children: [
                         if (activeGoals.isNotEmpty) ...[
-                          Text(
-                            'Active Goals',
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.grey.shade700,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 25),
                           ...activeGoals.map((goal) => GoalCard(
                                 goal: goal,
                                 onTap: () => _openAddSavings(goal),
@@ -142,7 +135,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                         if (completedGoals.isNotEmpty) ...[
                           const SizedBox(height: 12),
                           Text(
-                            'Completed Goals',
+                            'الأهداف المُنجزة',
                             style: theme.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.w700,
                               color: Colors.grey.shade700,

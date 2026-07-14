@@ -80,17 +80,17 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF5F5F5),
+        backgroundColor: const Color(0xFFF8F5EF),
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
+          backgroundColor: const Color(0xFFFFFDF9),
+          surfaceTintColor: const Color(0xFFFFFDF9),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
             onPressed: () => Navigator.pop(context),
           ),
           title: const Text(
-            'Add Goal',
+            'اضافة هدف',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -101,7 +101,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
             children: [
               const AdvisorCard(),
               const SizedBox(height: 24),
-              _buildSectionLabel('Goal Name'),
+              _buildSectionLabel('اسم الهدف'),
               const SizedBox(height: 10),
               CustomTextField(
                 controller: _nameController,
@@ -112,14 +112,14 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                     (v == null || v.trim().isEmpty) ? 'Enter a name' : null,
               ),
               const SizedBox(height: 24),
-              _buildSectionLabel('Goal Type'),
+              _buildSectionLabel('نوع الهدف'),
               const SizedBox(height: 10),
               GoalTypeGrid(
                 selectedType: _selectedType,
                 onSelected: (type) => setState(() => _selectedType = type),
               ),
               const SizedBox(height: 24),
-              _buildSectionLabel('Target Amount'),
+              _buildSectionLabel('المبلغ المستهدف'),
               const SizedBox(height: 10),
               CustomTextField(
                 controller: _amountController,
@@ -146,7 +146,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
               ),
               const SizedBox(height: 32),
               PrimaryButton(
-                label: 'Add Goal',
+                label: 'اضافة هدف',
                 onPressed: _submit,
                 isLoading: _isSaving,
               ),

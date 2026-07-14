@@ -7,8 +7,8 @@ class AdvisorCard extends StatelessWidget {
 
   const AdvisorCard({
     super.key,
-    this.title = 'Financial Advisor',
-    this.description = 'Break your goal into small steps to make it achievable',
+    this.title = 'مرشدي المالي',
+    this.description = 'قسم هدفك إلى خطوات صغيرة لتحقيقه',
     this.message,
   });
 
@@ -34,9 +34,9 @@ class AdvisorCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
-              'assets/images/advisor.png',
-              width: 52,
-              height: 52,
+              'assets/images/adv.png',
+              width: 82,
+              height: 82,
               fit: BoxFit.cover,
               errorBuilder: (_, __, ___) => Container(
                 width: 52,
@@ -58,14 +58,14 @@ class AdvisorCard extends StatelessWidget {
                 if (message == null) ...[
                   Text(
                     title,
-                    style: theme.textTheme.titleSmall?.copyWith(
+                    style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     description,
-                    style: theme.textTheme.bodySmall?.copyWith(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                       height: 1.4,
                     ),

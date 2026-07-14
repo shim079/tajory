@@ -68,10 +68,10 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
               const SizedBox(height: 8),
               Expanded(
                 child: GridView.count(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  childAspectRatio: 0.85,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 0.95,
                   children: _goals.map((goal) {
                     final isSelected = _selectedGoals.contains(goal.label);
                     return GestureDetector(
@@ -105,17 +105,17 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
                                 children: [
                                   Image.asset(
                                     goal.iconAsset,
-                                    width: 40,
-                                    height: 40,
+                                    width: 80,
+                                    height: 80,
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: 6),
                                   Text(
                                     goal.label,
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: theme.textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                       color: isSelected
                                           ? const Color(0xFF2E7D32)
@@ -150,12 +150,23 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
                 ),
               ),
               const SizedBox(height: 8),
-              FilledButton(
-                onPressed: _submit,
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF2E7D32),
+              SizedBox(
+                width: double.infinity,
+                height: 54,
+                child: FilledButton(
+                  onPressed: _submit,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF2E7D32),
+                    disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
                 ),
-                child: const Text('Next'),
               ),
               const SizedBox(height: 8),
               TextButton(

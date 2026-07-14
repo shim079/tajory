@@ -16,7 +16,7 @@ class GoalCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 14),
+        margin: const EdgeInsets.only(bottom: 18),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -29,15 +29,15 @@ class GoalCard extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(28),
           child: Row(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
                   getGoalImage(goal.title),
-                  width: 64,
-                  height: 64,
+                  width: 80,
+                  height: 80,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -54,7 +54,7 @@ class GoalCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Target: ${goal.target.toStringAsFixed(0)} ﷼',
+                      'الهدف: ${goal.target.toStringAsFixed(0)} ﷼',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -88,14 +88,14 @@ class GoalCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Saved: ${goal.saved.toStringAsFixed(0)}',
+                          'المدخر: ${goal.saved.toStringAsFixed(0)}',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: green,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         Text(
-                          'Remaining: ${goal.remaining.toStringAsFixed(0)}',
+                          'المتبقي: ${goal.remaining.toStringAsFixed(0)}',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),

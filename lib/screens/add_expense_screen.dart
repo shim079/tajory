@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/expense.dart';
+import '../services/firestore_service.dart';
 
 class AddExpenseScreen extends StatefulWidget {
   const AddExpenseScreen({super.key});
@@ -9,6 +11,7 @@ class AddExpenseScreen extends StatefulWidget {
 }
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
+  final _firestoreService = FirestoreService();
   final _amountController = TextEditingController();
   final _notesController = TextEditingController();
   String _selectedCategory = Expense.standardCategories[0];
@@ -31,11 +34,11 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     if (date != null) setState(() => _selectedDate = date);
   }
 
-  void _save() {
+  Future<void> _save() async {
     final amountText = _amountController.text.trim();
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter an amount.')),
+        const SnackBar(content: Text('الرجاء إدخال المبلغ.')),
       );
       return;
     }
@@ -43,18 +46,34 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     final amount = double.tryParse(amountText);
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount.')),
+        const SnackBar(content: Text('من فضلك أدخل مبلغًا صالحًا.')),
       );
       return;
     }
 
-    Navigator.of(context).pop({
-      'amount': amount,
-      'category': _selectedCategory,
-      'description': _notesController.text.trim(),
-      'source': 'manual',
-      'date': _selectedDate.toIso8601String(),
-    });
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    try {
+      await _firestoreService.addExpense(
+        uid: user.uid,
+        amount: amount,
+        category: _selectedCategory,
+        description: _notesController.text.trim(),
+        source: 'manual',
+      );
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('تم اضافة المصروف')),
+      );
+      Navigator.of(context).pop(true);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed: $e')),
+      );
+    }
   }
 
   @override
@@ -62,9 +81,26 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     final theme = Theme.of(context);
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(24, 12, 24, 24 + bottomInset),
-      child: Column(
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F5EF),
+        appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: const Color(0xFFFFFDF9),
+        surfaceTintColor: const Color(0xFFFFFDF9),
+        title: const Text(
+          'اضافة مصروف',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(24, 12, 24, 24 + bottomInset),
+        child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -80,7 +116,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           ),
           const SizedBox(height: 20),
           Text(
-            'Add Expense',
+            'اضافة مصروف',
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -89,10 +125,17 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           DropdownButtonFormField<String>(
             initialValue: _selectedCategory,
             decoration: InputDecoration(
-              labelText: 'Category',
+              labelText: 'النوع',
               prefixIcon: const Icon(Icons.category_outlined),
-              border: OutlineInputBorder(
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFF2E7D32)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
               ),
             ),
             items: Expense.standardCategories
@@ -107,11 +150,22 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             controller: _amountController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-              labelText: 'Amount',
-              hintText: 'e.g. 50',
-              prefixIcon: const Icon(Icons.attach_money),
-              border: OutlineInputBorder(
+              labelText: 'المبلغ',
+              prefixText: '﷼ ',
+              prefixStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF2E7D32),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFF2E7D32)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
               ),
             ),
           ),
@@ -121,10 +175,17 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             borderRadius: BorderRadius.circular(12),
             child: InputDecorator(
               decoration: InputDecoration(
-                labelText: 'Date',
+                labelText: 'التاريخ',
                 prefixIcon: const Icon(Icons.calendar_today),
-                border: OutlineInputBorder(
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
                 ),
               ),
               child: Text(
@@ -137,11 +198,17 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             controller: _notesController,
             maxLines: 2,
             decoration: InputDecoration(
-              labelText: 'Notes (optional)',
-              hintText: 'e.g. Lunch with friends',
+              labelText: 'ملاحظات (اختياري)',
               prefixIcon: const Icon(Icons.notes),
-              border: OutlineInputBorder(
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFF2E7D32)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
               ),
             ),
           ),
@@ -155,12 +222,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               ),
             ),
             child: const Text(
-              'Save Expense',
+              'حفظ المصاريف',
               style: TextStyle(fontSize: 16),
             ),
           ),
         ],
       ),
+      ),
+    ),
     );
   }
 }

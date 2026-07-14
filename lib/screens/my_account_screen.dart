@@ -5,6 +5,9 @@ import '../models/badge.dart' as badge_model;
 import '../models/pet_model.dart';
 import '../services/firestore_service.dart';
 import '../services/pet_service.dart';
+import '../widgets/profile_header.dart';
+import '../widgets/settings_item.dart';
+import '../widgets/settings_section.dart';
 
 class MyAccountScreen extends StatefulWidget {
   const MyAccountScreen({super.key});
@@ -141,202 +144,89 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     if (isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Account'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          // ── Profile ──
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F5EF),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: const Color(0xFFFFFDF9),
+          surfaceTintColor: const Color(0xFFFFFDF9),
+          elevation: 0,
+          title: const Text(
+            'حسابي',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF222222),
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const ProfileHeader(),
+              const SizedBox(height: 24),
+              SettingsSection(
                 children: [
-                  CircleAvatar(
-                    radius: 32,
-                    backgroundColor: theme.colorScheme.primaryContainer,
-                    child: Text(
-                      name.isNotEmpty ? name[0].toUpperCase() : '?',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: theme.colorScheme.onPrimaryContainer,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  SettingsItem(
+                    title: 'المعلومات الشخصية',
+                    icon: Icons.person_outline_rounded,
+                    onTap: () {},
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: theme.textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          email,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
-                    ),
+                  SettingsItem(
+                    title: 'سياسات الخصوصية',
+                    icon: Icons.privacy_tip_outlined,
+                    onTap: () {},
+                  ),
+                  SettingsItem(
+                    title: 'عن التطبيق',
+                    icon: Icons.info_outline_rounded,
+                    onTap: () {},
+                  ),
+                  SettingsItem(
+                    title: 'تواصل معنا',
+                    icon: Icons.mail_outline_rounded,
+                    onTap: () {},
                   ),
                 ],
               ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // ── Income ──
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text('Income & Salary',
-                          style: theme.textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.w600)),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(Icons.edit, size: 20),
-                        onPressed: _editIncome,
+              const SizedBox(height: 24),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: logout,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFE53935),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  _infoRow(theme, 'Monthly Income',
-                      '\$${income.toStringAsFixed(0)}', Icons.attach_money),
-                  if (salaryDate.isNotEmpty) ...[
-                    const SizedBox(height: 8),
-                    _infoRow(theme, 'Salary Date', salaryDate,
-                        Icons.calendar_today),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // ── Companion Pet ──
-          if (pet != null)
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Text(pet!.emoji,
-                        style: const TextStyle(fontSize: 40)),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Companion',
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              )),
-                          const SizedBox(height: 2),
-                          Text(pet!.name,
-                              style: theme.textTheme.titleSmall
-                                  ?.copyWith(fontWeight: FontWeight.w600)),
-                          const SizedBox(height: 2),
-                          Text(pet!.description,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              )),
-                        ],
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'تسجيل الخروج',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          const SizedBox(height: 16),
-
-          // ── Achievements ──
-          if (unlockedBadges.isNotEmpty) ...[
-            Text('Achievements',
-                style: theme.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: unlockedBadges
-                  .map((badge) => Chip(
-                        avatar: Icon(
-                          badge.id.contains('goal')
-                              ? Icons.flag
-                              : badge.id.contains('expense')
-                                  ? Icons.receipt
-                                  : badge.id.contains('saving')
-                                      ? Icons.savings
-                                      : badge.id.contains('island')
-                                          ? Icons.landscape
-                                          : badge.id.contains('habit')
-                                              ? Icons.loop
-                                              : Icons.star,
-                          size: 18,
-                          color: theme.colorScheme.primary,
-                        ),
-                        label: Text(badge.title,
-                            style: const TextStyle(fontSize: 12)),
-                        backgroundColor:
-                            theme.colorScheme.primaryContainer,
-                      ))
-                  .toList(),
-            ),
-            const SizedBox(height: 16),
-          ],
-
-          // ── Settings ──
-          Text('Settings',
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.logout_rounded),
-              title: const Text('Logout'),
-              onTap: logout,
-            ),
+              const SizedBox(height: 32),
+            ],
           ),
-          const SizedBox(height: 32),
-        ],
+        ),
       ),
-    );
-  }
-
-  Widget _infoRow(
-      ThemeData theme, String label, String value, IconData icon) {
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: theme.colorScheme.primary),
-        const SizedBox(width: 8),
-        Text(label,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            )),
-        const Spacer(),
-        Text(value,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w600)),
-      ],
     );
   }
 }

@@ -41,11 +41,10 @@ class RegistrationStepper extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               stepLabels[stepIndex],
-              style: TextStyle(
-                fontSize: 9,
-                fontWeight:
-                    state == _StepState.current ? FontWeight.w700 : FontWeight.w500,
-                color: state == _StepState.current ? _green : _inactiveColor,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
               ),
               textAlign: TextAlign.center,
               maxLines: 2,

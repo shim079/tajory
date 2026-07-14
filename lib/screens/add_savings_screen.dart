@@ -149,12 +149,14 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
     final theme = Theme.of(context);
     final green = const Color(0xFF2E7D32);
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      appBar: AppBar(
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFFFDF9),
+        appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+        backgroundColor: const Color(0xFFFFFDF9),
+        surfaceTintColor: const Color(0xFFFFFDF9),
         title: Text(
           'اضافة ادخار',
           style: theme.textTheme.titleLarge?.copyWith(
@@ -180,6 +182,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
                 _buildSubmitButton(green),
               ],
             ),
+          ),
     );
   }
 
@@ -202,9 +205,9 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
-              'assets/images/advisor.png',
-              width: 52,
-              height: 52,
+              'assets/images/adv.png',
+              width: 82,
+              height: 82,
               fit: BoxFit.cover,
               errorBuilder: (_, __, ___) => Container(
                 width: 52,
@@ -225,14 +228,14 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
               children: [
                 Text(
                   'مرشدي المالي',
-                  style: theme.textTheme.titleSmall?.copyWith(
+                  style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'وفر 5% من راتبك أو أكثر خلال الشهر',
-                  style: theme.textTheme.bodySmall?.copyWith(
+                  style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                     height: 1.4,
                   ),
@@ -250,7 +253,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(17),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -268,7 +271,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
           TextFormField(
             controller: _amountController,
             keyboardType: TextInputType.number,
@@ -288,7 +291,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 40),
           Row(
             children: _quickAmounts.map((amount) {
               final isSelected = _selectedQuickAmount == amount;

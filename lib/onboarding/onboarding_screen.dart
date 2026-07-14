@@ -93,17 +93,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 return OnboardingPage(data: onboardingPages[index]);
               },
             ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: size.height * 0.22,
-              child: Center(
-                child: OnboardingIndicator(
-                  currentPage: _currentPage,
-                  pageCount: _totalPages,
+            if (_currentPage > 0)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: size.height * 0.22,
+                child: Center(
+                  child: OnboardingIndicator(
+                    currentPage: _currentPage,
+                    pageCount: _totalPages,
+                  ),
                 ),
               ),
-            ),
             if (_currentPage > 0)
               Positioned(
                 left: 28,

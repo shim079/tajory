@@ -111,8 +111,9 @@ class _IslandScreenState extends State<IslandScreen> {
                     ? const CircularProgressIndicator()
                     : Image.asset(
                         'assets/images/${_companionAsset!}',
-                        width: double.infinity,
-                        height: double.infinity,
+                        width: 250,
+                        height: 300,
+                        fit: BoxFit.contain,
                       ),
               ),
             ),

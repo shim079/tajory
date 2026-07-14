@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Align(
-                              alignment: Alignment.topLeft,
+                              alignment: Alignment.topRight,
                               child: IconButton(
                                 icon: const Icon(
                                   Icons.arrow_back,
