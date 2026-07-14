@@ -163,7 +163,7 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
                     ),
                   ),
                   child: const Text(
-                    'Next',
+                    'التالي',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -171,7 +171,7 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
               const SizedBox(height: 8),
               TextButton(
                 onPressed: _submit,
-                child: const Text('Skip'),
+                child: const Text('تخطي'),
               ),
               const SizedBox(height: 16),
             ],

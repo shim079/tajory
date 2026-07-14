@@ -144,7 +144,7 @@ class _StepCompanionState extends State<StepCompanion> {
                 ),
               ),
               child: const Text(
-                'Next',
+                'التالي',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
               ),
             ),
