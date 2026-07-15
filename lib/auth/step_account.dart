@@ -270,7 +270,7 @@ class _StepAccountState extends State<StepAccount> {
                 onPressed: (_isLoading || !_agreedToTerms) ? null : _register,
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xFF2E7D32),
-                  disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.5),
+                  disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.8),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
@@ -318,7 +318,7 @@ class _StepAccountState extends State<StepAccount> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: rules.map((rule) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 4),
+          padding: const EdgeInsets.only(bottom: 24),
           child: Row(
             children: [
               Icon(

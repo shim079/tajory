@@ -32,7 +32,7 @@ const List<OnboardingData> onboardingPages = [
     title: '',
     description:
         'Your smart companion for building better financial habits and achieving your financial goals.',
-    primaryButtonText: 'Next',
+    primaryButtonText: 'التالي',
     illustrationType: OnboardingIllustrationType.logo,
     backgroundColor: Color(0xFFF8F5EF),
   ),
@@ -40,7 +40,7 @@ const List<OnboardingData> onboardingPages = [
     title: 'ابدأ رحلتك نحو مستقبل مالي أفضل',
     description:
         'حول كل مبلغ تدخره الى خطوة جديدة, وشاهد واحتك تنمو مع كل انجاز.',
-    primaryButtonText: 'Next',
+    primaryButtonText: 'التالي',
     illustrationType: OnboardingIllustrationType.desertOnly,
     backgroundColor: null,
   ),
@@ -48,7 +48,7 @@ const List<OnboardingData> onboardingPages = [
     title: 'ابدا ادخارك الأن',
     description:
         'حدد هدفك المالي وسنساعدك على الوصول اليه خطوة بخطوة.',
-    primaryButtonText: 'Next',
+    primaryButtonText: 'التالي',
     illustrationType: OnboardingIllustrationType.floatingGoals,
     backgroundColor: Color(0xFFF8F5EF),
   ),
@@ -56,7 +56,7 @@ const List<OnboardingData> onboardingPages = [
     title: 'مرشدك المالي معك في كل خطوة',
     description:
         'احصل على نصائح دكية و تتبع تقدمك واكتشف عاداتك المالية.',
-    primaryButtonText: 'Get Started',
+    primaryButtonText: 'ابدأ الأن',
     secondaryButtonText: 'هل لديك حساب بالفعل؟ سجّل الدخول',
     showSkip: false,
     illustrationType: OnboardingIllustrationType.advisor,

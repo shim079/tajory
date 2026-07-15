@@ -64,17 +64,6 @@ class _OnboardingPageState extends State<OnboardingPage>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 8,
-              left: 16,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black87,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -89,7 +78,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'Tajouri',
+                    'تجوري',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -179,27 +168,51 @@ class _OnboardingPageState extends State<OnboardingPage>
         return Stack(
           children: [
             Positioned(
-              top: size.height * 0.06 + _floatAnimations[2].value,
-              right: size.width * 0.1,
-              child: _buildGoalImage(
-                'assets/images/سفر.png',
-                size.width * 0.28,
+              top: size.height * 0.07 + _floatAnimations[2].value,
+              right: size.width * 0.2,
+              child: Container(
+                width: size.width * 0.32,
+                height: size.width * 0.32,
+                decoration: const BoxDecoration(
+                  color: Color(0x805C8A5A),
+                  shape: BoxShape.circle,
+                ),
+                child: _buildGoalImage(
+                  'assets/images/سفر.png',
+                  size.width * 0.28,
+                ),
               ),
             ),
             Positioned(
               top: size.height * 0.20 + _floatAnimations[1].value,
               left: size.width * 0.08,
-              child: _buildGoalImage(
-                'assets/images/سيارة.png',
-                size.width * 0.32,
+              child: Container(
+                width: size.width * 0.33,
+                height: size.width * 0.33,
+                decoration: const BoxDecoration(
+                  color: Color(0x80D8C3A5),
+                  shape: BoxShape.circle,
+                ),
+                child: _buildGoalImage(
+                  'assets/images/سيارة.png',
+                  size.width * 0.32,
+                ),
               ),
             ),
             Positioned(
-              bottom: size.height * 0.02 + _floatAnimations[0].value,
-              left: size.width * 0.30,
-              child: _buildGoalImage(
-                'assets/images/بيت.png',
-                size.width * 0.34,
+              bottom: size.height * 0.03 + _floatAnimations[0].value,
+              left: size.width * 0.50,
+              child: Container(
+                width: size.width * 0.34,
+                height: size.width * 0.34,
+                decoration: const BoxDecoration(
+                  color: Color(0x80D4A64A),
+                  shape: BoxShape.circle,
+                ),
+                child: _buildGoalImage(
+                  'assets/images/بيت.png',
+                  size.width * 0.34,
+                ),
               ),
             ),
           ],

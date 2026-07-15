@@ -173,7 +173,7 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
                 onPressed: _submit,
                 child: const Text('تخطي'),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 106),
             ],
           ),
         );

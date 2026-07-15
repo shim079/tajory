@@ -120,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     if (data.showSkip) ...[
                       const SizedBox(height: 8),
                       OnboardingSecondaryButton(
-                        text: 'Skip',
+                        text: 'تخطي',
                         onPressed: _completeOnboarding,
                       ),
                     ] else if (data.secondaryButtonText != null) ...[

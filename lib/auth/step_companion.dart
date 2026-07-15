@@ -149,7 +149,7 @@ class _StepCompanionState extends State<StepCompanion> {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 160),
         ],
       ),
     );
