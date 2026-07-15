@@ -50,20 +50,21 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _navItem(0, Icons.landscape_rounded, 'واحتي'),
-              _navItem(1, Icons.flag_rounded, 'اهدافي'),
-              const SizedBox(width: 48),
-              _navItem(3, Icons.trending_up_rounded, 'رؤاي المالية'),
-              _navItem(4, Icons.person_rounded, 'حسابي'),
+          _navItem(0, Icons.landscape_rounded, 'واحتي'),
+          _navItem(1, Icons.flag_rounded, 'اهدافي'),
+          _navItemTextOnly('اضافة ادخار'),
+          _navItem(3, Icons.trending_up_rounded, 'رؤاي المالية'),
+          _navItem(4, Icons.person_rounded, 'حسابي'),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: theme.colorScheme.primary,
-        foregroundColor: theme.colorScheme.onPrimary,
+        backgroundColor: const Color(0xFF2E7D32),
+        foregroundColor: Colors.white,
         onPressed: _openAddSavings,
         tooltip: 'اضافة ادخار',
+        shape: const CircleBorder(),
         child: const Icon(Icons.add_rounded),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   : theme.colorScheme.onSurfaceVariant,
               size: 24,
             ),
-            const SizedBox(height: 2),
+          const SizedBox(height: 4),
             Text(
               label,
               style: theme.textTheme.labelSmall?.copyWith(
@@ -101,6 +102,28 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _navItemTextOnly(String label) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 24),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

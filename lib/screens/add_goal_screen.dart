@@ -51,6 +51,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
         uid: user.uid,
         title: title,
         target: target,
+        goalType: _selectedType,
       );
 
       await _firestoreService.logActivity(

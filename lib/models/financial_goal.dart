@@ -9,6 +9,7 @@ class FinancialGoal {
   final DateTime? deadline;
   final DateTime? completedAt;
   final bool isCompleted;
+  final String goalType;
 
   FinancialGoal({
     this.id,
@@ -19,6 +20,7 @@ class FinancialGoal {
     this.deadline,
     this.completedAt,
     this.isCompleted = false,
+    this.goalType = 'Other',
   }) : createdAt = createdAt ?? DateTime.now();
 
   double get progressPercent =>
@@ -60,6 +62,7 @@ class FinancialGoal {
     'deadline': deadline?.toIso8601String(),
     'completedAt': completedAt?.toIso8601String(),
     'isCompleted': isCompleted,
+    'goalType': goalType,
   };
 
   factory FinancialGoal.fromMap(Map<String, dynamic> map, {String? id}) {
@@ -82,6 +85,7 @@ class FinancialGoal {
               : (map['completedAt'] as dynamic)?.toDate()
           : null,
       isCompleted: map['isCompleted'] as bool? ?? false,
+      goalType: map['goalType'] as String? ?? 'Other',
     );
   }
 }

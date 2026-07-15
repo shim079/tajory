@@ -141,6 +141,16 @@ class _FinancialVisionScreenState extends State<FinancialVisionScreen> {
         financialAdvice = advice;
         isLoading = false;
       });
+
+      if (advice.isNotEmpty) {
+        firestoreService.updateUserProfile(
+          uid: user.uid,
+          data: {
+            'adviceTitle': advice.first.title,
+            'adviceMessage': advice.first.message,
+          },
+        );
+      }
     } catch (e) {
       if (mounted) setState(() => isLoading = false);
     }

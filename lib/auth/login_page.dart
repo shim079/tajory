@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../onboarding/onboarding_data.dart';
 import 'auth_service.dart';
 import 'registration_page.dart';
-import 'package:tajory/onboarding/onboarding_page.dart';
+import '../onboarding/onboarding_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -128,12 +127,10 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.black87,
                                 ),
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => OnboardingPage(
-                                        data: onboardingPages[0],
-                                      ),
+                                      builder: (_) => const OnboardingScreen(),
                                     ),
                                   );
                                 },
@@ -170,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
 
-                          const SizedBox(height: 80),
+                          const SizedBox(height: 90),
 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
 
-                          const SizedBox(height: 46),
+                          const SizedBox(height: 36),
 
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,7 +289,26 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
 
-                          const SizedBox(height: 62),
+                          const SizedBox(height: 8),
+
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                // TODO: implement password reset
+                              },
+                              child: const Text(
+                                'هل نسيت كلمة المرور؟',
+                                style: TextStyle(
+                                  color: Color(0xFF2E7D32),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 36),
 
                           FilledButton(
                             onPressed: _isLoading ? null : _login,

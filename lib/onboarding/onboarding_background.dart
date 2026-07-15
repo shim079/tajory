@@ -22,22 +22,16 @@ class OnboardingBackground extends StatelessWidget {
             top: 0,
             left: 0,
             right: 0,
-            height: 410,
+            bottom: 0,
             child: Image.asset(
               'assets/images/desert.png',
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
+              fit: BoxFit.contain,
+              alignment: Alignment(-0.5, -1),
             ),
           ),
         if (!useDesert)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 410,
-            child: Container(
-              color: backgroundColor,
-            ),
+          Container(
+            color: backgroundColor,
           ),
         Positioned(
           top: 410,
@@ -45,20 +39,22 @@ class OnboardingBackground extends StatelessWidget {
           right: 0,
           bottom: 0,
           child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(32),
                 topRight: Radius.circular(32),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x1A000000),
-                  blurRadius: 24,
-                  spreadRadius: 4,
-                  offset: Offset(0, -4),
-                ),
-              ],
+              boxShadow: useDesert
+                  ? []
+                  : const [
+                      BoxShadow(
+                        color: Color(0x1A000000),
+                        blurRadius: 24,
+                        spreadRadius: 4,
+                        offset: Offset(0, -4),
+                      ),
+                    ],
             ),
           ),
         ),

@@ -72,6 +72,18 @@ class FirestoreService {
     }
   }
 
+  Future<void> updateUserProfile({
+    required String uid,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      await _firestore.collection('users').doc(uid).update(data);
+    } catch (e) {
+      debugPrint('FirestoreService.updateUserProfile error: $e');
+      rethrow;
+    }
+  }
+
   // ─── Expenses ────────────────────────────────────────────────────
 
   Future<void> addExpense({
@@ -170,6 +182,7 @@ class FirestoreService {
     required String title,
     required double target,
     DateTime? deadline,
+    String? goalType,
   }) async {
     try {
       await _userRef(uid).collection('goals').add({
@@ -180,6 +193,7 @@ class FirestoreService {
         'deadline': deadline?.toIso8601String(),
         'completedAt': null,
         'isCompleted': false,
+        'goalType': goalType ?? 'Other',
       });
     } catch (e) {
       debugPrint('FirestoreService.addGoal error: $e');
