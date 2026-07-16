@@ -95,6 +95,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final padH = MediaQuery.of(context).size.width * 0.062;
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -114,7 +115,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(24, 12, 24, 24 + bottomInset),
+        padding: EdgeInsets.fromLTRB(padH, 12, padH, 24 + bottomInset),
         child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

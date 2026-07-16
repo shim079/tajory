@@ -6,10 +6,10 @@ class ExpensePieChart extends StatelessWidget {
   final double totalExpenses;
 
   static const _designColors = {
-    'Food': Color(0xFF00CCCC),
-    'Shopping': Color(0xFF7733FF),
-    'Bills': Color(0xFFFF8000),
-    'Transportation': Color(0xFF00CCCC),
+    'Food': Color(0xFFE5B97C),
+    'Shopping': Color(0xFFD8C3A4),
+    'Bills': Color(0xFFA0A4B0),
+    'Transportation': Color(0xFF2E7D32),
     'Entertainment': Color(0xFF7733FF),
     'Healthcare': Color(0xFFFF8000),
     'Education': Color(0xFF00CCCC),
@@ -36,6 +36,7 @@ class ExpensePieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final chartSize = MediaQuery.of(context).size.width * 0.308;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -58,8 +59,8 @@ class ExpensePieChart extends StatelessWidget {
             children: [
                 DonutChart(
                   data: categoryTotals,
-                  size: 120,
-                  strokeWidth: 20,
+                  size: chartSize,
+                  strokeWidth: chartSize * 0.167,
                   categoryColors: _designColors,
                   showLegend: false,
                 ),

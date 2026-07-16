@@ -50,6 +50,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final sandHeight = MediaQuery.of(context).size.height * 0.14;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -64,7 +66,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               left: 0,
               right: 0,
               bottom: 0,
-              height: 120,
+              height: sandHeight,
               child: Image.asset(
                 'assets/images/sand.png',
                 fit: BoxFit.cover,

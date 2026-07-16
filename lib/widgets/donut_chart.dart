@@ -9,14 +9,14 @@ class DonutChart extends StatelessWidget {
   final bool showLegend;
 
   static const _categoryColors = {
-    'Food': Color(0xFF4CAF50),
-    'Shopping': Color(0xFFFF9800),
-    'Bills': Color(0xFF2196F3),
+    'Food': Color(0xFFE5B97C),
+    'Shopping': Color(0xFF2E7D32),
+    'Bills': Color(0xFFA0A4B0),
     'Transportation': Color(0xFF9C27B0),
     'Entertainment': Color(0xFFE91E63),
     'Healthcare': Color(0xFF00BCD4),
     'Education': Color(0xFF3F51B5),
-    'Other': Color(0xFF607D8B),
+    'Other': Color(0xFFD8C3A4),
   };
 
   const DonutChart({

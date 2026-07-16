@@ -193,14 +193,17 @@ class _ProfileHeaderState extends State<ProfileHeader>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+    final topPadding = size.height * 0.064;
+    final dayCircleSize = size.width * 0.108;
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
         color: const Color(0xFFF8F5EF),
         padding: widget.showLevelInfo
-            ? const EdgeInsets.only(top: 54, bottom: 12)
-            : const EdgeInsets.only(left: 20, right: 20, top: 54, bottom: 12),
+            ? EdgeInsets.only(top: topPadding, bottom: 12)
+            : EdgeInsets.only(left: size.width * 0.051, right: size.width * 0.051, top: topPadding, bottom: 12),
         child: _isLoading
           ? const SizedBox(
               height: 80,
@@ -269,8 +272,8 @@ class _ProfileHeaderState extends State<ProfileHeader>
                                       ? _scaleAnimation
                                       : const AlwaysStoppedAnimation(1.0),
                                   child: Container(
-                                    width: 42,
-                                    height: 42,
+                                    width: dayCircleSize,
+                                    height: dayCircleSize,
                                     decoration: BoxDecoration(
                                       color: completed
                                           ? const Color(0xFFFFE8E0)
@@ -367,8 +370,8 @@ class _ProfileHeaderState extends State<ProfileHeader>
                                       ? _scaleAnimation
                                       : const AlwaysStoppedAnimation(1.0),
                                   child: Container(
-                                    width: 42,
-                                    height: 42,
+                                    width: dayCircleSize,
+                                    height: dayCircleSize,
                                     decoration: BoxDecoration(
                                       color: completed
                                           ? const Color(0xFFFFE8E0)
@@ -438,6 +441,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
 
   Widget _buildLevelInfo(ThemeData theme) {
     final userLevel = calculateUserLevel(_totalXP);
+    final size = MediaQuery.of(context).size;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -466,7 +470,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
         Row(
           children: [
             SizedBox(
-              width: 140,
+              width: size.width * 0.36,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
@@ -511,9 +515,11 @@ class _ProfileHeaderState extends State<ProfileHeader>
 
   Widget _buildAvatar(ThemeData theme) {
     final hasImage = _profileImageUrl != null && _profileImageUrl!.isNotEmpty;
+    final size = MediaQuery.of(context).size;
+    final avatarRadius = size.width * 0.072;
 
     final avatar = CircleAvatar(
-      radius: 28,
+      radius: avatarRadius,
       backgroundColor: theme.colorScheme.primaryContainer,
       backgroundImage: hasImage ? NetworkImage(_profileImageUrl!) : null,
       child: hasImage

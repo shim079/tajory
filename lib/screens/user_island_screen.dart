@@ -71,6 +71,8 @@ class _UserIslandScreenState extends State<UserIslandScreen> {
     final theme = Theme.of(context);
     final userLevel = calculateUserLevel(_totalXP);
     final hasImage = widget.profileImage != null && widget.profileImage!.isNotEmpty;
+    final size = MediaQuery.of(context).size;
+    final topPadding = size.height * 0.083;
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -86,7 +88,7 @@ class _UserIslandScreenState extends State<UserIslandScreen> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.only(top: 70, left: 24, right: 24, bottom: 24),
+                padding: EdgeInsets.only(top: topPadding, left: 24, right: 24, bottom: 24),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(

@@ -465,6 +465,7 @@ class _FinancialVisionScreenState extends State<FinancialVisionScreen> {
 
   Widget _buildBehaviorCards() {
     final cards = <BehaviorCard>[];
+    final listHeight = MediaQuery.of(context).size.height * 0.237;
 
     if (recommendations.isEmpty) {
       cards.add(const BehaviorCard(
@@ -487,7 +488,7 @@ class _FinancialVisionScreenState extends State<FinancialVisionScreen> {
     }
 
     return SizedBox(
-      height: 200,
+      height: listHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 20),

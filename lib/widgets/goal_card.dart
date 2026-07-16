@@ -12,6 +12,8 @@ class GoalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final green = const Color(0xFF2E7D32);
+    final size = MediaQuery.of(context).size;
+    final imageSize = size.width * 0.205;
 
     return GestureDetector(
       onTap: onTap,
@@ -29,15 +31,15 @@ class GoalCard extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(28),
+          padding: EdgeInsets.all(size.width * 0.072),
           child: Row(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
                   getGoalImageForGoal(goal.title, goal.goalType),
-                  width: 80,
-                  height: 80,
+                  width: imageSize,
+                  height: imageSize,
                   fit: BoxFit.cover,
                 ),
               ),

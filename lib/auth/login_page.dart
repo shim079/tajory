@@ -74,6 +74,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final sandHeight = size.height * 0.14;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -89,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               left: 0,
               right: 0,
               bottom: 0,
-              height: 120,
+              height: sandHeight,
               child: Image.asset(
                 'assets/images/sand.png',
                 fit: BoxFit.cover,
@@ -115,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                             .top,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 10, 24, 16),
+                        padding: EdgeInsets.fromLTRB(size.width * 0.062, 10, size.width * 0.062, 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -162,12 +165,12 @@ class _LoginPageState extends State<LoginPage> {
 
 // ================= FORM CONTENT =================
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: EdgeInsets.symmetric(horizontal: size.width * 0.062),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
 
-                          const SizedBox(height: 90),
+                          SizedBox(height: size.height * 0.107),
 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
 
-                          const SizedBox(height: 36),
+                          SizedBox(height: size.height * 0.043),
 
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,7 +311,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 36),
+                          SizedBox(height: size.height * 0.043),
 
                           FilledButton(
                             onPressed: _isLoading ? null : _login,

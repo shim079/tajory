@@ -62,6 +62,8 @@ class AdvisorNotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final padH = MediaQuery.of(context).size.width * 0.051;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -108,8 +110,8 @@ class AdvisorNotificationsScreen extends StatelessWidget {
                   ],
                 ),
               )
-            : ListView.builder(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+            :               ListView.builder(
+                padding: EdgeInsets.fromLTRB(padH, 8, padH, 32),
                 itemCount: advice.length,
                 itemBuilder: (_, i) {
                   final item = advice[i];

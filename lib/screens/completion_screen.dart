@@ -122,6 +122,9 @@ class _CompletionScreenState extends State<CompletionScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+    final sandHeight = size.height * 0.14;
+    final iconSize = size.width * 0.51;
 
     return Scaffold(
       body: Stack(
@@ -135,7 +138,7 @@ class _CompletionScreenState extends State<CompletionScreen>
             left: 0,
             right: 0,
             bottom: 0,
-            height: 120,
+            height: sandHeight,
             child: Image.asset(
               'assets/images/sand.png',
               fit: BoxFit.cover,
@@ -159,8 +162,8 @@ class _CompletionScreenState extends State<CompletionScreen>
                             ),
                             child: SvgPicture.asset(
                               'assets/images/Feedback Icon.svg',
-                              width: 200,
-                              height: 200,
+                              width: iconSize,
+                              height: iconSize,
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -205,8 +208,8 @@ class _CompletionScreenState extends State<CompletionScreen>
                                   style: FilledButton.styleFrom(
                                     backgroundColor: const Color(0xFF2E7D32), // #2E7D32
                                     foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 105, vertical: 16),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: size.width * 0.27, vertical: 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     )

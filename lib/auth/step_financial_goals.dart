@@ -43,9 +43,11 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final padH = MediaQuery.of(context).size.width * 0.062;
+    final size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: padH),
       child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -89,6 +91,12 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected
+                                ? const Color(0xFF2E7D32)
+                                : Colors.grey.shade200,
+                            width: isSelected ? 2 : 1,
+                          ),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: isSelected ? 0.12 : 0.08),
@@ -97,52 +105,31 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
                             ),
                           ],
                         ),
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image.asset(
-                                    goal.iconAsset,
-                                    width: 80,
-                                    height: 80,
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    goal.label,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: isSelected
-                                          ? const Color(0xFF2E7D32)
-                                          : null,
-                                    ),
-                                  ),
-                                ],
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                goal.iconAsset,
+                                width: size.width * 0.205,
+                                height: size.width * 0.205,
                               ),
-                            ),
-                            if (isSelected)
-                              Positioned(
-                                top: 4,
-                                right: 4,
-                                child: Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFF2E7D32),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.check,
-                                    size: 12,
-                                    color: Colors.white,
-                                  ),
+                              const SizedBox(height: 6),
+                              Text(
+                                goal.label,
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: isSelected
+                                      ? const Color(0xFF2E7D32)
+                                      : null,
                                 ),
                               ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -173,7 +160,7 @@ class _StepFinancialGoalsState extends State<StepFinancialGoals> {
                 onPressed: _submit,
                 child: const Text('تخطي'),
               ),
-              const SizedBox(height: 106),
+              SizedBox(height: size.height * 0.126),
             ],
           ),
         );

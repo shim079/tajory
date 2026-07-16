@@ -36,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+    final navHeight = size.height * 0.085;
 
     return Scaffold(
       body: IndexedStack(
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 6,
-        height: 72,
+        height: navHeight,
         color: Colors.white,
         surfaceTintColor: Colors.white,
         child: Padding(

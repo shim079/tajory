@@ -15,12 +15,13 @@ class AmountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final green = const Color(0xFF2E7D32);
+    final size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.051, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected ? green : Colors.white,
           borderRadius: BorderRadius.circular(12),

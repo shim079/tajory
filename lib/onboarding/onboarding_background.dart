@@ -13,6 +13,9 @@ class OnboardingBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final useDesert = backgroundColor == null;
+    final size = MediaQuery.of(context).size;
+    final splitTop = size.height * 0.49;
+    final sandHeight = size.height * 0.14;
 
     return Stack(
       fit: StackFit.expand,
@@ -34,7 +37,7 @@ class OnboardingBackground extends StatelessWidget {
             color: backgroundColor,
           ),
         Positioned(
-          top: 410,
+          top: splitTop,
           left: 0,
           right: 0,
           bottom: 0,
@@ -62,14 +65,14 @@ class OnboardingBackground extends StatelessWidget {
           top: 0,
           left: 0,
           right: 0,
-          height: 410,
+          height: splitTop,
           child: child,
         ),
         Positioned(
           left: 0,
           right: 0,
           bottom: 0,
-          height: 120,
+          height: sandHeight,
           child: Image.asset(
             'assets/images/sand.png',
             fit: BoxFit.cover,

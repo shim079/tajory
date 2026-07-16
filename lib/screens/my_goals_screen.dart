@@ -65,6 +65,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final green = const Color(0xFF2E7D32);
+    final padH = MediaQuery.of(context).size.width * 0.041;
 
     final activeGoals = goals.where((g) => !g.isCompleted).toList();
     final completedGoals = goals.where((g) => g.isCompleted).toList();
@@ -123,7 +124,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                       ],
                     )
                   : ListView(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+                      padding: EdgeInsets.fromLTRB(padH, 16, padH, 32),
                       children: [
                         if (activeGoals.isNotEmpty) ...[
                           const SizedBox(height: 25),

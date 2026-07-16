@@ -56,7 +56,12 @@ class RegistrationHeader extends StatelessWidget {
                 : const SizedBox.shrink(),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
+            padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.062,
+              0,
+              MediaQuery.of(context).size.width * 0.062,
+              16,
+            ),
             child: RegistrationStepper(
               currentStep: currentStep,
               totalSteps: totalSteps,

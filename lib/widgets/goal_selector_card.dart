@@ -18,12 +18,14 @@ class GoalSelectorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final green = const Color(0xFF2E7D32);
+    final cardWidth = MediaQuery.of(context).size.width * 0.33;
+    final imageSize = cardWidth * 0.37;
 
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        width: 130,
+        width: cardWidth,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: isSelected ? green.withValues(alpha: 0.08) : Colors.white,
@@ -47,8 +49,8 @@ class GoalSelectorCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
                 getGoalImageForGoal(goal.title, goal.goalType),
-                width: 48,
-                height: 48,
+                width: imageSize,
+                height: imageSize,
                 fit: BoxFit.cover,
               ),
             ),

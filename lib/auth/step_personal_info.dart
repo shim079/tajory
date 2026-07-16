@@ -100,9 +100,10 @@ class _StepPersonalInfoState extends State<StepPersonalInfo> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final padH = MediaQuery.of(context).size.width * 0.062;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: padH),
       child: Form(
         key: _formKey,
         child: Column(

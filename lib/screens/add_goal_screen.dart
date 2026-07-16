@@ -85,6 +85,8 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final padH = MediaQuery.of(context).size.width * 0.041;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -105,7 +107,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
         body: Form(
           key: _formKey,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+            padding: EdgeInsets.fromLTRB(padH, 16, padH, 32),
             children: [
               const AdvisorCard(),
               const SizedBox(height: 24),

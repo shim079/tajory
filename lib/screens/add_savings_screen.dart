@@ -177,7 +177,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 32),
               children: [
                 _buildAdvisorCard(theme),
                 const SizedBox(height: 20),
@@ -193,6 +193,8 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
   }
 
   Widget _buildAdvisorCard(ThemeData theme) {
+    final imageSize = MediaQuery.of(context).size.width * 0.21;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -212,12 +214,12 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
               'assets/images/adv.png',
-              width: 82,
-              height: 82,
+              width: imageSize,
+              height: imageSize,
               fit: BoxFit.cover,
               errorBuilder: (_, __, ___) => Container(
-                width: 52,
-                height: 52,
+                width: imageSize * 0.63,
+                height: imageSize * 0.63,
                 decoration: BoxDecoration(
                   color: const Color(0xFF2E7D32).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -302,7 +304,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
             children: _quickAmounts.map((amount) {
               final isSelected = _selectedQuickAmount == amount;
               return Padding(
-                padding: const EdgeInsets.only(right: 5),
+                padding: const EdgeInsets.only(right: 4),
                 child: AmountButton(
                   amount: amount,
                   isSelected: isSelected,

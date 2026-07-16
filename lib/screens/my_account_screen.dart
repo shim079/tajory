@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/auth_service.dart';
+import '../auth/auth_wrapper.dart';
 import '../models/badge.dart' as badge_model;
 import '../models/pet_model.dart';
 import '../services/firestore_service.dart';
@@ -71,6 +72,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   Future<void> logout() async {
     try {
       await authService.logout();
+      if (!mounted) return;
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const AuthWrapper()),
+        (route) => false,
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -160,6 +166,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       );
     }
 
+    final padH = MediaQuery.of(context).size.width * 0.051;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -208,7 +216,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               ),
               const SizedBox(height: 24),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: padH),
                 child: SizedBox(
                   width: double.infinity,
                   height: 52,

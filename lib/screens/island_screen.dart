@@ -115,6 +115,10 @@ class _IslandScreenState extends State<IslandScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final companionWidth = size.width * 0.51;
+    final companionHeight = size.height * 0.30;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -128,7 +132,7 @@ class _IslandScreenState extends State<IslandScreen> {
             ProfileHeader(onAvatarTap: widget.onProfileTap),
             if (_adviceTitle != null && _adviceMessage != null)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.041, vertical: 8),
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: AdvisorRecommendationCard(
@@ -145,8 +149,8 @@ class _IslandScreenState extends State<IslandScreen> {
                     ? const CircularProgressIndicator()
                     : Image.asset(
                         'assets/images/${_companionAsset!}',
-                        width: 200,
-                        height: 250,
+                        width: companionWidth,
+                        height: companionHeight,
                         fit: BoxFit.contain,
                       ),
               ),
@@ -155,7 +159,7 @@ class _IslandScreenState extends State<IslandScreen> {
               Transform.translate(
                 offset: const Offset(0, -20),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 15),
+                  padding: EdgeInsets.fromLTRB(size.width * 0.041, 0, size.width * 0.041, 15),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: _buildGoalsCard(),
@@ -424,7 +428,7 @@ class _IslandScreenState extends State<IslandScreen> {
           const SizedBox(height: 4),
           Center(
             child: SizedBox(
-              width: 180,
+              width: MediaQuery.of(context).size.width * 0.46,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(2),
                 child: LinearProgressIndicator(

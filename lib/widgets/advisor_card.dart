@@ -15,6 +15,8 @@ class AdvisorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+    final imageSize = size.width * 0.21;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -35,12 +37,12 @@ class AdvisorCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
               'assets/images/adv.png',
-              width: 82,
-              height: 82,
+              width: imageSize,
+              height: imageSize,
               fit: BoxFit.cover,
               errorBuilder: (_, __, ___) => Container(
-                width: 52,
-                height: 52,
+                width: imageSize * 0.63,
+                height: imageSize * 0.63,
                 decoration: BoxDecoration(
                   color: const Color(0xFF2E7D32).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),

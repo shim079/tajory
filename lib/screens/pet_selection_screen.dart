@@ -50,6 +50,7 @@ class _PetSelectionScreenState extends State<PetSelectionScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final bottomPadding = BottomSandWidget.heightOf(context) + 24;
+    final padH = MediaQuery.of(context).size.width * 0.062;
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +60,7 @@ class _PetSelectionScreenState extends State<PetSelectionScreen> {
         children: [
           SafeArea(
             child: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(24, 24, 24, bottomPadding),
+              padding: EdgeInsets.fromLTRB(padH, 24, padH, bottomPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

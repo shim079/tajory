@@ -19,9 +19,10 @@ class BehaviorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cardWidth = MediaQuery.of(context).size.width * 0.41;
 
     return Container(
-      width: 160,
+      width: cardWidth,
       margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

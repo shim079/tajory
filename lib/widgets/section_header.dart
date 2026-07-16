@@ -9,13 +9,15 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final topPad = MediaQuery.of(context).size.height * 0.064;
+    final padH = MediaQuery.of(context).size.width * 0.051;
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
         width: double.infinity,
         color: const Color(0xFFF8F5EF),
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 54, bottom: 12),
+        padding: EdgeInsets.only(left: padH, right: padH, top: topPad, bottom: 12),
         child: Row(
           children: [
             if (trailing != null) ...[

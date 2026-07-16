@@ -57,6 +57,10 @@ class _OnboardingPageState extends State<OnboardingPage>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final splitTop = size.height * 0.49;
+    final sandHeight = size.height * 0.14;
+    final logoSize = size.width * 0.56;
+    final logoHeight = logoSize * 1.25;
 
     if (widget.data.illustrationType == OnboardingIllustrationType.logo) {
       return Container(
@@ -69,8 +73,8 @@ class _OnboardingPageState extends State<OnboardingPage>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    width: 220,
-                    height: 274,
+                    width: logoSize,
+                    height: logoHeight,
                     child: Image.asset(
                       'assets/images/tajory.png',
                       fit: BoxFit.contain,
@@ -92,7 +96,7 @@ class _OnboardingPageState extends State<OnboardingPage>
               left: 0,
               right: 0,
               bottom: 0,
-              height: 120,
+              height: sandHeight,
               child: Image.asset(
                 'assets/images/sand.png',
                 fit: BoxFit.cover,
@@ -111,7 +115,7 @@ class _OnboardingPageState extends State<OnboardingPage>
           child: _buildIllustration(size),
         ),
         Positioned(
-          top: 410,
+          top: splitTop,
           left: 0,
           right: 0,
           bottom: 0,
@@ -138,20 +142,22 @@ class _OnboardingPageState extends State<OnboardingPage>
     return Center(
       child: SvgPicture.asset(
         'assets/images/tajory.svg',
-        height: size.height * 0.22,
+        height: size.height * 0.12,
         fit: BoxFit.contain,
       ),
     );
   }
 
   Widget _buildAdvisorIllustration(Size size) {
+    final imgSize = size.width * 0.92;
+    final topOffset = size.height * 0.09;
     return Stack(
       children: [
         Positioned(
-          top: 62,
-          left: 16,
-          width: 369,
-          height: 369,
+          top: topOffset,
+          left: size.width * 0.04,
+          width: imgSize,
+          height: imgSize,
           child: Image.asset(
             'assets/images/advisor.png',
             fit: BoxFit.contain,
@@ -236,8 +242,11 @@ class _OnboardingPageState extends State<OnboardingPage>
       padding: EdgeInsets.only(top: size.height * 0.06),
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.symmetric(horizontal: 28),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 32),
+        margin: EdgeInsets.symmetric(horizontal: size.width * 0.072),
+        padding: EdgeInsets.symmetric(
+          horizontal: size.width * 0.03,
+          vertical: size.height * 0.038,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -259,7 +268,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
                 color: Colors.grey[600],
-                height: 1.5,
+                height: 1.2,
               ),
             ),
           ],

@@ -107,8 +107,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             if (_currentPage > 0)
               Positioned(
-                left: 28,
-                right: 28,
+                left: size.width * 0.072,
+                right: size.width * 0.072,
                 bottom: size.height * 0.15,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

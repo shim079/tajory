@@ -254,6 +254,7 @@ class _UsersScreenState extends State<UsersScreen> {
     final hasImage = _currentUserProfileImage != null &&
         _currentUserProfileImage!.isNotEmpty;
     final userLevel = calculateUserLevel(_currentUserXP);
+    final avatarRadius = MediaQuery.of(context).size.width * 0.077;
 
     return Container(
       padding: const EdgeInsets.all(26),
@@ -271,7 +272,7 @@ class _UsersScreenState extends State<UsersScreen> {
       child: Row(
         children: [
           CircleAvatar(
-            radius: 30,
+            radius: avatarRadius,
             backgroundColor: theme.colorScheme.primaryContainer,
             backgroundImage:
                 hasImage ? NetworkImage(_currentUserProfileImage!) : null,
@@ -395,6 +396,7 @@ class _UsersScreenState extends State<UsersScreen> {
       ThemeData theme, LeaderboardUser user, int rank, bool isCurrentUser) {
     final hasImage =
         user.profileImage != null && user.profileImage!.isNotEmpty;
+    final avatarRadius = MediaQuery.of(context).size.width * 0.056;
 
     return Container(
       color: Colors.white,
@@ -431,7 +433,7 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             const SizedBox(width: 10),
             CircleAvatar(
-              radius: 22,
+              radius: avatarRadius,
               backgroundColor: theme.colorScheme.primaryContainer,
               backgroundImage:
                   hasImage ? NetworkImage(user.profileImage!) : null,

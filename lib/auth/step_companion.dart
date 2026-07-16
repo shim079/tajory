@@ -44,9 +44,11 @@ class _StepCompanionState extends State<StepCompanion> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final padH = MediaQuery.of(context).size.width * 0.062;
+    final bottomSpacer = MediaQuery.of(context).size.height * 0.19;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 3, 24, 3),
+      padding: EdgeInsets.fromLTRB(padH, 3, padH, 3),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -85,6 +87,12 @@ class _StepCompanionState extends State<StepCompanion> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    border: Border.all(
+                      color: isSelected
+                          ? theme.colorScheme.primary
+                          : Colors.grey.shade200,
+                      width: isSelected ? 2 : 1,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: isSelected ? 0.12 : 0.08),
@@ -93,38 +101,17 @@ class _StepCompanionState extends State<StepCompanion> {
                       ),
                     ],
                   ),
-                  child: Stack(
-                    children: [
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          return Center(
-                            child: Image.asset(
-                              'assets/images/${companion.asset}',
-                              width: constraints.maxWidth * 0.85,
-                              height: constraints.maxHeight * 0.85,
-                              fit: BoxFit.contain,
-                            ),
-                          );
-                        },
-                      ),
-                      if (isSelected)
-                        Positioned(
-                          top: 6,
-                          right: 6,
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.check,
-                              size: 14,
-                              color: theme.colorScheme.onPrimary,
-                            ),
-                          ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Center(
+                        child: Image.asset(
+                          'assets/images/${companion.asset}',
+                          width: constraints.maxWidth * 0.85,
+                          height: constraints.maxHeight * 0.85,
+                          fit: BoxFit.contain,
                         ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               );
@@ -149,7 +136,7 @@ class _StepCompanionState extends State<StepCompanion> {
               ),
             ),
           ),
-          const SizedBox(height: 160),
+          SizedBox(height: bottomSpacer),
         ],
       ),
     );
