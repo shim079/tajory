@@ -1,10 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../models/island_state.dart';
+import '../models/user_level.dart';
 import '../services/firestore_service.dart';
 
 class ProfileHeader extends StatefulWidget {
-  const ProfileHeader({super.key});
+  final VoidCallback? onAvatarTap;
+  final bool showLevelInfo;
+
+  const ProfileHeader({super.key, this.onAvatarTap, this.showLevelInfo = false});
 
   @override
   State<ProfileHeader> createState() => _ProfileHeaderState();
@@ -21,6 +26,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
   int _requiredXP = 100;
   bool _isLoading = true;
   int currentStreak = 0;
+  int _totalXP = 0;
 
   int _currentStreak = 0;
   List<DateTime> _checkedDays = [];
@@ -55,13 +61,15 @@ class _ProfileHeaderState extends State<ProfileHeader>
       final profileFuture = _firestoreService.getUserProfile(user.uid);
       final islandFuture = _firestoreService.getIslandState(user.uid);
       final checkInFuture = _firestoreService.getDailyCheckIn(user.uid);
+      final statsFuture = _firestoreService.getUserLeaderboardStats(user.uid);
 
       final results =
-          await Future.wait([profileFuture, islandFuture, checkInFuture]);
+          await Future.wait([profileFuture, islandFuture, checkInFuture, statsFuture]);
 
       final profile = results[0] as Map<String, dynamic>?;
       final islandState = results[1] as IslandState;
       final checkInData = results[2] as Map<String, dynamic>?;
+      final stats = results[3] as Map<String, dynamic>;
 
       if (!mounted) return;
 
@@ -83,6 +91,14 @@ class _ProfileHeaderState extends State<ProfileHeader>
           d.month == today.month &&
           d.day == today.day);
 
+      final savingsDays = stats['savingsDays'] as int;
+      final checkedDaysCount = stats['checkedDays'] as int;
+      final savingsCount = stats['savingsCount'] as int;
+      final streak = stats['currentStreak'] as int;
+      final savingScore = (savingsDays * 10) + (savingsCount * 20);
+      final attendanceScore = (checkedDaysCount * 5) + (streak * 10);
+      final totalXP = savingScore + attendanceScore;
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         setState(() {
@@ -94,6 +110,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
           _currentStreak = currentStreak;
           _checkedDays = checkedDays;
           _hasCheckedInToday = hasCheckedInToday;
+          _totalXP = totalXP;
           _isLoading = false;
         });
       });
@@ -181,13 +198,111 @@ class _ProfileHeaderState extends State<ProfileHeader>
       textDirection: TextDirection.rtl,
       child: Container(
         color: const Color(0xFFF8F5EF),
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 54, bottom: 12),
+        padding: widget.showLevelInfo
+            ? const EdgeInsets.only(top: 54, bottom: 12)
+            : const EdgeInsets.only(left: 20, right: 20, top: 54, bottom: 12),
         child: _isLoading
           ? const SizedBox(
               height: 80,
               child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
             )
-          : Column(
+          : widget.showLevelInfo
+              ? Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.06),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          _buildAvatar(theme),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _buildLevelInfo(theme),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
+                      Row(
+                        children: [
+                          Text(
+                            'التسجيل اليومي',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: _getCurrentWeekDays().map((day) {
+                          final completed = _isCompleted(day);
+                          final today = _isToday(day);
+
+                          return GestureDetector(
+                            onTap: today && !completed ? _onCheckIn : null,
+                            child: Column(
+                              children: [
+                                Text(
+                                  _dayAbbreviation(day),
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                ScaleTransition(
+                                  scale: (today && completed)
+                                      ? _scaleAnimation
+                                      : const AlwaysStoppedAnimation(1.0),
+                                  child: Container(
+                                    width: 42,
+                                    height: 42,
+                                    decoration: BoxDecoration(
+                                      color: completed
+                                          ? const Color(0xFFFFE8E0)
+                                          : Colors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: completed
+                                            ? Colors.red.shade400
+                                            : today
+                                                ? Colors.black87
+                                                : Colors.grey.shade300,
+                                        width: today && !completed ? 2 : 1.5,
+                                      ),
+                                    ),
+                                    child: completed
+                                        ? Icon(
+                                            Icons.local_fire_department_rounded,
+                                            color: Colors.red.shade400,
+                                            size: 20,
+                                          )
+                                        : null,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                )
+              : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
@@ -195,33 +310,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
                     _buildAvatar(theme),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _getGreeting(),
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Icon(Icons.local_fire_department_rounded,
-                                  color: Colors.orange.shade700, size: 18),
-                              const SizedBox(width: 4),
-                              Text(
-                                '$_currentStreak ايام ',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      child: _buildGreeting(theme),
                     ),
                   ],
                 ),
@@ -296,8 +385,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
                                     ),
                                     child: completed
                                         ? Icon(
-                                            Icons
-                                                .local_fire_department_rounded,
+                                            Icons.local_fire_department_rounded,
                                             color: Colors.red.shade400,
                                             size: 20,
                                           )
@@ -318,20 +406,133 @@ class _ProfileHeaderState extends State<ProfileHeader>
     );
   }
 
+  Widget _buildGreeting(ThemeData theme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          _getGreeting(),
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Icon(Icons.local_fire_department_rounded,
+                color: Colors.orange.shade700, size: 18),
+            const SizedBox(width: 4),
+            Text(
+              '$_currentStreak ايام ',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLevelInfo(ThemeData theme) {
+    final userLevel = calculateUserLevel(_totalXP);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            SvgPicture.asset(
+              'assets/images/level.svg',
+              width: 24,
+              height: 24,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                userLevel.name,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            SizedBox(
+              width: 140,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: userLevel.progress,
+                  minHeight: 6,
+                  backgroundColor: Colors.grey.shade200,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    theme.colorScheme.primary,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '$_totalXP XP',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Icon(Icons.local_fire_department_rounded,
+                color: Colors.orange.shade700, size: 16),
+            const SizedBox(width: 4),
+            Text(
+              '$_currentStreak ايام ',
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget _buildAvatar(ThemeData theme) {
     final hasImage = _profileImageUrl != null && _profileImageUrl!.isNotEmpty;
 
-    return CircleAvatar(
+    final avatar = CircleAvatar(
       radius: 28,
       backgroundColor: theme.colorScheme.primaryContainer,
       backgroundImage: hasImage ? NetworkImage(_profileImageUrl!) : null,
       child: hasImage
           ? null
-          : Icon(
-              Icons.person_rounded,
-              size: 30,
-              color: theme.colorScheme.onPrimaryContainer,
+          : ClipOval(
+              child: Image.asset(
+                'assets/images/image.png',
+                width: 56,
+                height: 56,
+                fit: BoxFit.cover,
+              ),
             ),
+    );
+
+    if (widget.onAvatarTap == null) return avatar;
+
+    return GestureDetector(
+      onTap: widget.onAvatarTap,
+      child: avatar,
     );
   }
 }

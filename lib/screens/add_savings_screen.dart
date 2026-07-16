@@ -130,10 +130,16 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
       }
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('\$${amount.toStringAsFixed(0)} saved to "${goal.title}"')),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CompletionScreen(
+            title: 'تم الادخار بنجاح!',
+            message: '\$${amount.toStringAsFixed(0)} تم توفيرها لهدف "${goal.title}"',
+            needsReward: false,
+          ),
+        ),
       );
-      Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

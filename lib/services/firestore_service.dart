@@ -84,6 +84,57 @@ class FirestoreService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getAllUsers() async {
+    try {
+      final snapshot = await _firestore.collection('users').get();
+      return snapshot.docs
+          .map((doc) => {'uid': doc.id, ...doc.data()})
+          .toList();
+    } catch (e) {
+      debugPrint('FirestoreService.getAllUsers error: $e');
+      return [];
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserLeaderboardStats(String uid) async {
+    try {
+      final savingsSnapshot = await _userRef(uid).collection('savings').get();
+      final checkInDoc =
+          await _userRef(uid).collection('daily_checkin').doc('state').get();
+
+      final savingsCount = savingsSnapshot.docs.length;
+
+      final savingsDays = savingsSnapshot.docs.map((doc) {
+        final date = doc.data()['date'];
+        if (date is Timestamp) {
+          final d = date.toDate();
+          return DateTime(d.year, d.month, d.day);
+        }
+        return null;
+      }).whereType<DateTime>().toSet().length;
+
+      final checkInData = checkInDoc.data();
+      final checkedDays =
+          (checkInData?['checkedDays'] as List<dynamic>?)?.length ?? 0;
+      final currentStreak = checkInData?['currentStreak'] as int? ?? 0;
+
+      return {
+        'savingsCount': savingsCount,
+        'savingsDays': savingsDays,
+        'checkedDays': checkedDays,
+        'currentStreak': currentStreak,
+      };
+    } catch (e) {
+      debugPrint('FirestoreService.getUserLeaderboardStats error: $e');
+      return {
+        'savingsCount': 0,
+        'savingsDays': 0,
+        'checkedDays': 0,
+        'currentStreak': 0,
+      };
+    }
+  }
+
   // ─── Expenses ────────────────────────────────────────────────────
 
   Future<void> addExpense({

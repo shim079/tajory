@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/firestore_service.dart';
 import '../models/reward.dart';
 import 'home_screen.dart';
 
 class CompletionScreen extends StatefulWidget {
-  const CompletionScreen({super.key});
+  final String title;
+  final String message;
+  final bool needsReward;
+
+  const CompletionScreen({
+    super.key,
+    this.title = 'Congratulations!',
+    this.message = 'You\'ve reached your financial goal!\n'
+        'Your island has evolved and a new reward awaits.',
+    this.needsReward = true,
+  });
 
   @override
   State<CompletionScreen> createState() => _CompletionScreenState();
@@ -34,7 +45,12 @@ class _CompletionScreenState extends State<CompletionScreen>
     _fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animController, curve: const Interval(0.5, 1.0)),
     );
-    _initReward();
+    if (widget.needsReward) {
+      _initReward();
+    } else {
+      setState(() => isLoading = false);
+      _animController.forward();
+    }
   }
 
   Future<void> _initReward() async {
@@ -47,11 +63,11 @@ class _CompletionScreenState extends State<CompletionScreen>
       final reward = Reward(
         id: 'goal_${goalCount}_${DateTime.now().millisecondsSinceEpoch}',
         title: goalCount == 1
-            ? 'First Goal Achieved!'
-            : 'Goal #$goalCount Completed!',
+            ? 'الهدف الأول تحقق!'
+        : 'الهدف  #$goalCount اكتمل! ',
         description: goalCount == 1
             ? 'You\'ve reached your first financial goal! Your island is growing.'
-            : 'Another goal crushed! Keep building your financial future.',
+            : 'هدف آخر تحقق! استمر في بناء مستقبلك المالي.',
         iconAsset: goalCount >= 5 ? 'trophy' : 'star',
       );
 
@@ -63,7 +79,7 @@ class _CompletionScreenState extends State<CompletionScreen>
       if (!mounted) return;
       setState(() => rewardTitle = reward.title);
     } catch (e) {
-      setState(() => rewardTitle = 'Goal Completed!');
+      setState(() => rewardTitle = 'تم إنجاز الهدف!');
     } finally {
       if (mounted) setState(() => isLoading = false);
       _animController.forward();
@@ -77,6 +93,15 @@ class _CompletionScreenState extends State<CompletionScreen>
   }
 
   Future<void> _continue() async {
+    if (!widget.needsReward) {
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false,
+      );
+      return;
+    }
     setState(() => isSaving = true);
     try {
       final user = FirebaseAuth.instance.currentUser!;
@@ -99,132 +124,104 @@ class _CompletionScreenState extends State<CompletionScreen>
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              theme.colorScheme.primaryContainer,
-              theme.colorScheme.primary.withValues(alpha: 0.1),
-              theme.colorScheme.surface,
-            ],
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/images/fullbg.png',
+            fit: BoxFit.cover,
           ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(32),
-              child: isLoading
-                  ? const CircularProgressIndicator()
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedBuilder(
-                          animation: _scaleAnim,
-                          builder: (context, child) => Transform.scale(
-                            scale: _scaleAnim.value,
-                            child: child,
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 120,
+            child: Image.asset(
+              'assets/images/sand.png',
+              fit: BoxFit.cover,
+              alignment: Alignment.bottomCenter,
+            ),
+          ),
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(32),
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedBuilder(
+                            animation: _scaleAnim,
+                            builder: (context, child) => Transform.scale(
+                              scale: _scaleAnim.value,
+                              child: child,
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/images/Feedback Icon.svg',
+                              width: 200,
+                              height: 200,
+                            ),
                           ),
-                          child: Container(
-                            width: 160,
-                            height: 160,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: theme.colorScheme.primaryContainer,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                                  blurRadius: 30,
-                                  spreadRadius: 5,
+                          const SizedBox(height: 16),
+                          AnimatedBuilder(
+                            animation: _fadeAnim,
+                            builder: (context, child) => Opacity(
+                              opacity: _fadeAnim.value,
+                              child: child,
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  widget.title,
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.headlineMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  widget.message,
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                                const SizedBox(height: 32),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: FilledButton.icon(
+                                  onPressed: isSaving ? null : _continue,
+                                  icon: isSaving
+                                      ? const SizedBox(
+                                          width: 18,
+                                          height: 18,
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 2, color: Colors.white),
+                                        )
+                                      : const Icon(Icons.arrow_back),
+                                  label: const Text('انتقل الى واحتي'),
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: const Color(0xFF2E7D32), // #2E7D32
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 105, vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    )
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                            child: Icon(
-                              Icons.emoji_events_rounded,
-                              size: 80,
-                              color: theme.colorScheme.primary,
-                            ),
                           ),
-                        ),
-                        const SizedBox(height: 32),
-                        AnimatedBuilder(
-                          animation: _fadeAnim,
-                          builder: (context, child) => Opacity(
-                            opacity: _fadeAnim.value,
-                            child: child,
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                rewardTitle ?? 'Congratulations!',
-                                textAlign: TextAlign.center,
-                                style: theme.textTheme.headlineMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: theme.colorScheme.primary,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                'You\'ve reached your financial goal!\n'
-                                'Your island has evolved and a new reward awaits.',
-                                textAlign: TextAlign.center,
-                                style: theme.textTheme.bodyLarge?.copyWith(
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                              const SizedBox(height: 32),
-                              Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.stars_rounded,
-                                          color: Colors.amber.shade600, size: 32),
-                                      const SizedBox(width: 12),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Island Level Up!',
-                                              style: theme.textTheme.titleSmall?.copyWith(
-                                                  fontWeight: FontWeight.w600)),
-                                          Text('+100 XP earned',
-                                              style: theme.textTheme.bodySmall),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 32),
-                              FilledButton.icon(
-                                onPressed: isSaving ? null : _continue,
-                                icon: isSaving
-                                    ? const SizedBox(
-                                        width: 18,
-                                        height: 18,
-                                        child: CircularProgressIndicator(
-                                            strokeWidth: 2, color: Colors.white),
-                                      )
-                                    : const Icon(Icons.arrow_forward),
-                                label: const Text('Continue to Dashboard'),
-                                style: FilledButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 32, vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

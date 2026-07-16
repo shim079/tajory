@@ -9,7 +9,9 @@ import '../widgets/advisor_recommendation_card.dart';
 import '../widgets/profile_header.dart';
 
 class IslandScreen extends StatefulWidget {
-  const IslandScreen({super.key});
+  final VoidCallback? onProfileTap;
+
+  const IslandScreen({super.key, this.onProfileTap});
 
   @override
   State<IslandScreen> createState() => _IslandScreenState();
@@ -123,7 +125,7 @@ class _IslandScreenState extends State<IslandScreen> {
         ),
         child: Column(
           children: [
-            const ProfileHeader(),
+            ProfileHeader(onAvatarTap: widget.onProfileTap),
             if (_adviceTitle != null && _adviceMessage != null)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

@@ -28,6 +28,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   Pet? pet;
   List<badge_model.Badge> unlockedBadges = [];
   bool isLoading = true;
+  int totalXP = 0;
 
   @override
   void initState() {
@@ -42,6 +43,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       final profile = await firestoreService.getUserProfile(user.uid);
       final p = await petService.getSelectedPet(user.uid);
       final badges = await firestoreService.getUnlockedBadges(user.uid);
+      final stats = await firestoreService.getUserLeaderboardStats(user.uid);
+
+      final savingsDays = stats['savingsDays'] as int;
+      final checkedDays = stats['checkedDays'] as int;
+      final savingsCount = stats['savingsCount'] as int;
+      final currentStreak = stats['currentStreak'] as int;
+      final savingScore = (savingsDays * 10) + (savingsCount * 20);
+      final attendanceScore = (checkedDays * 5) + (currentStreak * 10);
 
       if (!mounted) return;
       setState(() {
@@ -51,6 +60,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         salaryDate = profile?['salaryDate'] as String? ?? '';
         pet = p;
         unlockedBadges = badges;
+        totalXP = savingScore + attendanceScore;
         isLoading = false;
       });
     } catch (e) {
@@ -170,7 +180,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const ProfileHeader(),
+              const ProfileHeader(showLevelInfo: true),
               const SizedBox(height: 24),
               SettingsSection(
                 children: [

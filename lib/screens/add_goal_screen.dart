@@ -5,6 +5,7 @@ import '../widgets/advisor_card.dart';
 import '../widgets/goal_type_grid.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/primary_button.dart';
+import 'completion_screen.dart';
 
 class AddGoalScreen extends StatefulWidget {
   const AddGoalScreen({super.key});
@@ -62,10 +63,16 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
       );
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('تم إنشاء الهدف! ')),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const CompletionScreen(
+            title: 'تم إنشاء الهدف!',
+            message: 'لقد تم إنشاء هدفك بنجاح. ابدأ في التوفير لتحقيقه!',
+            needsReward: false,
+          ),
+        ),
       );
-      Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

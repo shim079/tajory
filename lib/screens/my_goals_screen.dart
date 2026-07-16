@@ -160,7 +160,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   subtitle: Text(
-                                    'Saved ${goal.target.toStringAsFixed(0)} ﷼',
+                                    'المدخر ${goal.target.toStringAsFixed(0)} ﷼',
                                   ),
                                 ),
                               )),

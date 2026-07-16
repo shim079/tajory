@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'island_screen.dart';
 import 'my_goals_screen.dart';
 import 'financial_vision_screen.dart';
+import 'users_screen.dart';
 import 'my_account_screen.dart';
 import 'add_savings_screen.dart';
 
@@ -15,12 +16,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
-  final _pages = <Widget>[
-    const IslandScreen(),
+  List<Widget> get _pages => [
+    IslandScreen(onProfileTap: () {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const MyAccountScreen()));
+    }),
     const MyGoalsScreen(),
     const SizedBox.shrink(),
     const FinancialVisionScreen(),
-    const MyAccountScreen(),
+    const UsersScreen(),
   ];
 
   void _openAddSavings() {
@@ -54,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _navItem(1, Icons.flag_rounded, 'اهدافي'),
           _navItemTextOnly('اضافة ادخار'),
           _navItem(3, Icons.trending_up_rounded, 'رؤاي المالية'),
-          _navItem(4, Icons.person_rounded, 'حسابي'),
+          _navItem(4, Icons.people_rounded, 'المستخدمون'),
             ],
           ),
         ),
