@@ -1,6 +1,6 @@
 const String _kDefaultGoalImage = 'assets/images/ادخار.png';
 
-const Map<String, String> _goalImageMap = {
+const Map<String, String> _titleImageMap = {
   'البيت': 'assets/images/بيت.png',
   'السيارة': 'assets/images/سيارة.png',
   'الدراسة': 'assets/images/دراسة.png',
@@ -19,9 +19,26 @@ const Map<String, String> _goalImageMap = {
   'Other': 'assets/images/اخرى.png',
 };
 
+const Map<String, String> _typeImageMap = {
+  'Home': 'assets/images/بيت.png',
+  'Education': 'assets/images/دراسة.png',
+  'Travel': 'assets/images/سفر.png',
+  'Car': 'assets/images/سيارة.png',
+  'Marriage': 'assets/images/زواج.png',
+  'Emergencies': 'assets/images/ادخار.png',
+  'New Device': 'assets/images/لابتوب.png',
+  'Other': 'assets/images/اخرى.png',
+};
+
 String getGoalImage(String title) {
-  for (final entry in _goalImageMap.entries) {
+  for (final entry in _titleImageMap.entries) {
     if (title.contains(entry.key)) return entry.value;
   }
   return _kDefaultGoalImage;
+}
+
+String getGoalImageForGoal(String title, String goalType) {
+  final fromType = _typeImageMap[goalType];
+  if (fromType != null) return fromType;
+  return getGoalImage(title);
 }

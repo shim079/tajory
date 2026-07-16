@@ -71,13 +71,13 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
     final amount = double.tryParse(text);
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount')),
+        const SnackBar(content: Text('من فضلك أدخل مبلغًا صالحًا')),
       );
       return;
     }
     if (_selectedGoalId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a goal')),
+        const SnackBar(content: Text('الرجاء اختيار هدف')),
       );
       return;
     }
@@ -118,7 +118,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
         await _firestoreService.logActivity(
           uid: user.uid,
           action: 'complete_goal',
-          description: 'Completed goal: "${goal.title}"',
+          description: 'الهدف المُنجز:  "${goal.title}"',
           xpEarned: 100,
         );
         if (!mounted) return;
@@ -137,7 +137,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed: $e')),
+        SnackBar(content: Text('فشل:  $e')),
       );
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -280,7 +280,7 @@ class _AddSavingsScreenState extends State<AddSavingsScreen> {
               setState(() => _selectedQuickAmount = val ?? 0);
             },
             decoration: InputDecoration(
-              hintText: 'Enter amount',
+              hintText: 'أدخل المبلغ',
               prefixIcon: const Icon(Icons.attach_money_rounded),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),

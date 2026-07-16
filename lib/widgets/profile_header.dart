@@ -244,7 +244,7 @@ class _ProfileHeaderState extends State<ProfileHeader>
                       Row(
                         children: [
                           Text(
-                            'Daily Check-in',
+                            'التسجيل اليومي',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,

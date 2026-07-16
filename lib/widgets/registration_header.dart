@@ -39,7 +39,7 @@ class RegistrationHeader extends StatelessWidget {
                     child: IconButton(
                       onPressed: onBack,
                       icon: const Icon(
-                        Icons.arrow_forward_ios,
+                        Icons.arrow_back_ios,
                         size: 20,
                         color: Colors.black87,
                       ),

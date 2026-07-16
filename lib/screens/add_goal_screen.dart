@@ -33,7 +33,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a goal type')),
+        const SnackBar(content: Text('من فضلك اختر نوع الهدف')),
       );
       return;
     }
@@ -57,19 +57,19 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
       await _firestoreService.logActivity(
         uid: user.uid,
         action: 'create_goal',
-        description: 'Created goal: "$title"',
+        description: 'الهدف المُحدد: "$title"',
         xpEarned: 10,
       );
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Goal created!')),
+        const SnackBar(content: Text('تم إنشاء الهدف! ')),
       );
       Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed: $e')),
+        SnackBar(content: Text('فشل:  $e')),
       );
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -106,11 +106,11 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
               const SizedBox(height: 10),
               CustomTextField(
                 controller: _nameController,
-                labelText: 'Goal name',
-                hintText: 'e.g. Apartment Rent',
+                labelText: 'اسم الهدف',
+                hintText: 'مثلاً إيجار الشقة',
                 prefixIcon: const Icon(Icons.flag_outlined),
                 validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Enter a name' : null,
+                    (v == null || v.trim().isEmpty) ? 'أدخل اسمًا' : null,
               ),
               const SizedBox(height: 24),
               _buildSectionLabel('نوع الهدف'),
@@ -124,7 +124,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
               const SizedBox(height: 10),
               CustomTextField(
                 controller: _amountController,
-                labelText: 'Target amount',
+                labelText: 'المبلغ المستهدف',
                 hintText: '0',
                 keyboardType: TextInputType.number,
                 prefixIcon: const Icon(Icons.attach_money_rounded),
@@ -141,7 +141,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                 ),
                 validator: (v) {
                   final p = double.tryParse(v?.trim() ?? '');
-                  if (p == null || p <= 0) return 'Enter a valid amount';
+                  if (p == null || p <= 0) return 'أدخل مبلغًا صالحًا';
                   return null;
                 },
               ),

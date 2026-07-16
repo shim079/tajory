@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/expense.dart';
 import '../services/firestore_service.dart';
+import '../widgets/primary_button.dart';
 
 class AddExpenseScreen extends StatefulWidget {
   const AddExpenseScreen({super.key});
@@ -23,6 +24,20 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     _notesController.dispose();
     super.dispose();
   }
+
+  static const _arabicCategoryNames = {
+    'Food': 'طعام',
+    'Transportation': 'مواصلات',
+    'Shopping': 'تسوق',
+    'Entertainment': 'ترفيه',
+    'Bills': 'فواتير',
+    'Healthcare': 'رعاية صحية',
+    'Education': 'تعليم',
+    'Other': 'أخرى',
+  };
+
+  String _categoryArabicName(String category) =>
+      _arabicCategoryNames[category] ?? category;
 
   Future<void> _pickDate() async {
     final date = await showDatePicker(
@@ -139,7 +154,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               ),
             ),
             items: Expense.standardCategories
-                .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                .map((c) => DropdownMenuItem(
+                    value: c,
+                    child: Text(_categoryArabicName(c))))
                 .toList(),
             onChanged: (v) {
               if (v != null) setState(() => _selectedCategory = v);
@@ -213,18 +230,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          FilledButton(
+          PrimaryButton(
+            label: 'حفظ المصاريف',
             onPressed: _save,
-            style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text(
-              'حفظ المصاريف',
-              style: TextStyle(fontSize: 16),
-            ),
           ),
         ],
       ),

@@ -73,7 +73,7 @@ class _IslandScreenState extends State<IslandScreen> {
       final profile = results[1] as Map<String, dynamic>?;
       final goals = results[2] as List<FinancialGoal>;
       final selectedPet = profile?['selectedPet'] as String?;
-      final companionAsset = PetService.getCompanionAssetPath(selectedPet);
+        final companionAsset = PetService.getCompanionAssetPath(selectedPet);
 
       if (!mounted) return;
       setState(() {

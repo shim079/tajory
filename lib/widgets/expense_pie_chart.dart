@@ -6,14 +6,14 @@ class ExpensePieChart extends StatelessWidget {
   final double totalExpenses;
 
   static const _designColors = {
-    'Food': Color(0xFF2E7D32),
-    'Shopping': Color(0xFFDCC6A0),
-    'Bills': Color(0xFFB0B5BE),
-    'Transportation': Color(0xFFD9A441),
-    'Entertainment': Color(0xFF4CAF50),
-    'Healthcare': Color(0xFF2E7D32),
-    'Education': Color(0xFFD9A441),
-    'Other': Color(0xFFB0B5BE),
+    'Food': Color(0xFF00CCCC),
+    'Shopping': Color(0xFF7733FF),
+    'Bills': Color(0xFFFF8000),
+    'Transportation': Color(0xFF00CCCC),
+    'Entertainment': Color(0xFF7733FF),
+    'Healthcare': Color(0xFFFF8000),
+    'Education': Color(0xFF00CCCC),
+    'Other': Color(0xFF7733FF),
   };
 
   static const _categoryLabels = {

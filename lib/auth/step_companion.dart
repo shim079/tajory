@@ -138,7 +138,7 @@ class _StepCompanionState extends State<StepCompanion> {
               onPressed: _selectedCompanion != null ? _submit : null,
               style: FilledButton.styleFrom(
                 backgroundColor: const Color(0xFF2E7D32),
-                disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.5),
+                disabledBackgroundColor: const Color(0xFF2E7D32).withValues(alpha: 0.8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),

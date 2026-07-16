@@ -43,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
         shape: const CircularNotchedRectangle(),
         notchMargin: 6,
         height: 72,
-        color: theme.colorScheme.surface,
-        surfaceTintColor: theme.colorScheme.surfaceTint,
+        color: Colors.white,
+        surfaceTintColor: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Row(

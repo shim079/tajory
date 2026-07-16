@@ -35,7 +35,7 @@ class GoalCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
-                  getGoalImage(goal.title),
+                  getGoalImageForGoal(goal.title, goal.goalType),
                   width: 80,
                   height: 80,
                   fit: BoxFit.cover,

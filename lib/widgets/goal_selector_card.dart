@@ -46,7 +46,7 @@ class GoalSelectorCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
-                getGoalImage(goal.title),
+                getGoalImageForGoal(goal.title, goal.goalType),
                 width: 48,
                 height: 48,
                 fit: BoxFit.cover,
@@ -65,7 +65,7 @@ class GoalSelectorCard extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Text(
-              'Remaining: ${goal.remaining.toStringAsFixed(0)}',
+              'المتبقي:  ${goal.remaining.toStringAsFixed(0)}',
               style: theme.textTheme.bodySmall?.copyWith(
                 fontSize: 10,
                 color: theme.colorScheme.onSurfaceVariant,
